@@ -120,14 +120,6 @@ function bf_anna_scripts()
     //Register jQuery
     wp_enqueue_script('jquery');
 
-    //Register main.js file
-    wp_enqueue_script('main-js-file', get_template_directory_uri() . '/js/main.js');
-
-    //Register main.css file
-    $theme_uri = get_template_directory_uri();
-    wp_register_style('bfanna-theme-style', $theme_uri . '/css/main.css', false, '0.1');
-    wp_enqueue_style('bfanna-theme-style');
-
     //Register owl-carousel files
     wp_enqueue_script('OwlCarousel-scripts', get_stylesheet_directory_uri() . '/libs/OwlCarousel/dist/owl.carousel.min.js', array('jquery'), ' ');
     wp_enqueue_style('OwlCarousel', get_template_directory_uri() . '/libs/OwlCarousel/dist/assets/owl.carousel.min.css', array(), ' ');
@@ -139,6 +131,14 @@ function bf_anna_scripts()
     //Register bootstrap js from CDN
     wp_register_script('bootstrap-js', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js');
     wp_enqueue_script('bootstrap-js');
+
+    //Register main.js file
+    wp_enqueue_script('main-js-file', get_template_directory_uri() . '/js/main.js');
+
+    //Register main.css file
+    $theme_uri = get_template_directory_uri();
+    wp_register_style('bfanna-theme-style', $theme_uri . '/css/main.css', false, '0.1');
+    wp_enqueue_style('bfanna-theme-style');
 
     if (is_singular() && comments_open() && get_option('thread_comments')) {
         wp_enqueue_script('comment-reply');
