@@ -102,6 +102,18 @@ function bf_anna_widgets_init()
         'before_title' => '<h2 class="widget-title">',
         'after_title' => '</h2>',
     ));
+
+    register_sidebar(array(
+        'name' => esc_html__('gallery', 'bf-anna'),
+        'id' => 'photo-gallery',
+        'description' => esc_html__('Add widgets here.', 'bf-anna'),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget' => '</section>',
+        'before_title' => '<h2 class="widget-title">',
+        'after_title' => '</h2>',
+    ));
+
+
 }
 
 add_action('widgets_init', 'bf_anna_widgets_init');
@@ -182,3 +194,26 @@ function load_fonts()
 }
 
 add_action('wp_print_styles', 'load_fonts');
+
+function create_posttype()
+{
+    register_post_type('photo_gallery_img',
+        array(
+            'labels' => array(
+                'name' => __('photo_gallery_img'),
+                'singular_name' => __('gallery_img')
+            ),
+            'public' => true,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'query_var' => true,
+            'rewrite' => true,
+            'supports' => array('title', 'editor')
+        )
+    );
+}
+
+add_action('init', 'create_posttype');
+
+add_image_size( 'album-grid', 500, 300, true );
+
