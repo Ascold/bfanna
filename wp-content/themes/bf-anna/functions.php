@@ -215,5 +215,70 @@ function create_posttype()
 
 add_action('init', 'create_posttype');
 
-add_image_size( 'album-grid', 500, 300, true );
+add_image_size('album-grid', 500, 300, true);
+
+//включение комментариев для страниц по умолчанию start
+function wph_enable_comments_pages($status, $post_type, $comment_type)
+{
+    if ('page' === $post_type) {
+        if (in_array($comment_type, array('pingback', 'trackback'))) {
+            $status = get_option('default_ping_status');
+        } else {
+            $status = get_option('default_comment_status');
+        }
+    }
+    return $status;
+}
+
+add_filter('get_default_comment_status', 'wph_enable_comments_pages', 10, 3);
+//включение комментариев для страниц по умолчанию end
+
+
+function mytheme_comment($comment, $args, $depth)
+{
+$GLOBALS['comment'] = $comment; ?>
+<li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
+    <div id="comment-<?php comment_ID(); ?>">
+
+        <div class="comment-meta commentmetadata">
+            <div class="comment-avatar vcard"> <?php echo get_avatar(get_the_author_meta('user_email'), 50); ?></div>
+            <div class="fn"><?php echo get_comment_author_link() ?></div>
+            <div>
+                <time datetime="<?php comment_time('c'); ?>">
+                    <?php printf(_x('%s назад', '%s = human-readable time difference', 'your-text-domain'), human_time_diff(get_comment_time('U'), current_time('timestamp'))); ?>
+                </time>
+            </div>
+
+            <div class="reply">
+                <?php comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+            </div>
+        </div>
+        <?php comment_text() ?>
+
+    </div>
+    <?php
+    }
+
+    ?>
+    <?php function sort_comment_fields($fields)
+    {
+        $new_fields = array();
+        $myorder = array('author', 'email', 'comment');
+
+        foreach ($myorder as $key) {
+            $new_fields[$key] = $fields[$key];
+            unset($fields[$key]);
+        }
+
+        if ($fields)
+            foreach ($fields as $key => $val)
+                $new_fields[$key] = $val;
+        return $new_fields;
+    }
+
+    add_filter('comment_form_fields', 'sort_comment_fields');
+    ?>
+
+
+
 
