@@ -68,34 +68,31 @@ if (post_password_required()) {
         <p class="no-comments"><?php esc_html_e('Comments are closed.', 'bf-anna'); ?></p>
         <?php
     endif;
+
+
+
     $commenter = wp_get_current_commenter();
     $req = get_option('require_name_email');
     $aria_req = ($req ? " aria-required='true'" : '');
     $fields = array(
-
+        'title' => '<p class="comment-form-age"><label for="age">' . __('Тема відгуку') . '</label>' .
+            '<textarea id="title" name="title" cols="50" rows="50"> </textarea></p>',
         'author' => '<p class="comment-form-author">' . '<label for="author">' . __('Name') . '</label> ' . ($req ? '<span class="required">*</span>' : '') .
+            '<input id="author" name="author" type="text" value="' . esc_attr($commenter['comment_author']) . '" size="50" ' . $aria_req . ' /></p>',
 
-            '<input id="author" name="author" type="text" value="' . esc_attr($commenter['comment_author']) . '" size="30"' . $aria_req . ' /></p>',
-
-        'email' => '<p class="comment-form-email"><label for="email">' . __('Email') . '</label> ' . ($req ? '<span class="required">*</span>' : '') .
-
-            '<input id="email" name="email" type="text" value="' . esc_attr($commenter['comment_author_email']) . '" size="30"' . $aria_req . ' /></p>',
-        'city' => '
-//        <p class="comment-form-author">
-//            <label for="tittle">enter the title
-//                <span class="required">*</span>
-//            </label>
-//            <input id="title-com" name="title" size="30"
-//                   type="text" aria-required="true" required="required" />
-//        </p>'
     );
-    $comments_args = array(
-        'comment_notes_before' => '',
-        'fields' => $fields,
 
-        'comment_field' => '<p class="comment-form-comment"><label for="comment">' . __('') . '</label><br /><textarea id="comment" name="comment" aria-required="true"></textarea></p>'
-    );
-    comment_form($comments_args);
-    ?>
+$comments_args = array(
+    'fields' => $fields,
+    'title_reply' => 'Ваш відгук дуже важливий для нас',
+    'label_submit' => 'Send ',
+    'comment_notes_before' => ''
+
+);
+comment_form($comments_args);
+
+?>
 
 </div><!-- #comments -->
+
+
