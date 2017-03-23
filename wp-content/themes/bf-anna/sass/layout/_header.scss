@@ -1,0 +1,15 @@
+header#masthead {
+    .container-inner {
+        @include clearfix;
+        .site-branding {
+            padding: 0 128px;
+            .header-logo {
+                float: left;
+            }
+            .header-title {
+                padding-top: 72px;
+                float: right;
+            }
+        }
+    }
+}
