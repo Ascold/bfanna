@@ -1,3 +1,20 @@
 body {
-    background-color: #e6b3ff;
+    background-color: #d1c3d0;
+}
+
+header#masthead {
+    .main-navigation {
+        background: #daaccf;
+        li {
+            a {
+                color: #333;
+            }
+            &:hover {
+                background: #8d73bc;
+            }
+            .sub-menu {
+                background: #daaccf;
+            }
+        }
+    }
 }

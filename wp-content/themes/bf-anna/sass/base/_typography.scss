@@ -9,4 +9,12 @@ header {
             font-weight: 600;
         }
     }
+    .main-navigation {
+        background: lightgray;
+        li {
+            a {
+                font-size: 22px
+            }
+        }
+    }
 }

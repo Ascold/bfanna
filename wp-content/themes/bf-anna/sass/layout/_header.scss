@@ -11,5 +11,29 @@ header#masthead {
                 float: right;
             }
         }
+        .main-navigation {
+            ul.nav-menu {
+                @include clearfix;
+                li {
+                    a {
+                        padding: 15px 20px;
+                        text-decoration: none;
+                    }
+                    &:not(:last-child) {
+                        margin-right: 10px;
+                    }
+                }
+                .sub-menu {
+                    top: 0;
+                    margin-top: 61px;
+                    li {
+                        margin: 0;
+                        a {
+                            width: 315px;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
