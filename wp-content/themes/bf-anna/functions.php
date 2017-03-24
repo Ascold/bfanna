@@ -208,8 +208,7 @@ function create_posttype()
             'show_in_menu' => true,
             'query_var' => true,
             'rewrite' => true,
-            'supports' => array('title', 'editor', 'thumbnail'),
-
+            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields'),
         )
     );
 }
@@ -257,7 +256,6 @@ $GLOBALS['comment'] = $comment; ?>
             </div>
         </div>
         <?php comment_text() ?>
-
     </div>
     <?php
     }
@@ -315,6 +313,19 @@ $GLOBALS['comment'] = $comment; ?>
     }
 
     add_action('comment_post', 'add_comment_meta_values', 1);
+    ?>
+
+    <?php add_filter('post_thumbnail_html', 'my_post_image_html', 10, 3);
+
+    function my_post_image_html($html, $post_id, $post_image_id)
+    {
+
+        $html = '<a href="' . get_permalink($post_id) . '" title="' . esc_attr(get_the_title($post_id)) . '">' . $html
+            . '</a>';
+        return $html;
+
+    }
+
     ?>
 
 
