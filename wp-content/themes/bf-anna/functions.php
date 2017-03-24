@@ -208,12 +208,7 @@ function create_posttype()
             'show_in_menu' => true,
             'query_var' => true,
             'rewrite' => true,
-<<<<<<< HEAD
             'supports' => array('title', 'editor', 'thumbnail')
-=======
-            'supports' => array('title', 'editor', 'thumbnail'),
-
->>>>>>> 551a50e88856a00c6c106913828d441d27a13c7b
         )
     );
 }
@@ -247,10 +242,7 @@ $GLOBALS['comment'] = $comment; ?>
         <div class="title-for-comment">
             <?php echo get_comment_meta($comment->comment_ID, 'title', true); ?>
         </div>
-<<<<<<< HEAD
 
-=======
->>>>>>> 551a50e88856a00c6c106913828d441d27a13c7b
         <div class="comment-meta commentmetadata">
             <div class="comment-avatar vcard"> <?php echo get_avatar(get_the_author_meta('user_email'), 50); ?></div>
             <div class="fn"><?php echo get_comment_author_link() ?></div>
@@ -289,10 +281,6 @@ $GLOBALS['comment'] = $comment; ?>
 
     add_filter('comment_form_fields', 'sort_comment_fields');
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 551a50e88856a00c6c106913828d441d27a13c7b
     function remove_comment_fields($fields)
     {
         unset($fields['email']);
@@ -326,21 +314,10 @@ $GLOBALS['comment'] = $comment; ?>
     }
 
     add_action('comment_post', 'add_comment_meta_values', 1);
-<<<<<<< HEAD
 
-=======
->>>>>>> 551a50e88856a00c6c106913828d441d27a13c7b
     ?>
 
 
 
 
 
-<<<<<<< HEAD
-=======
-
-
-
-
-
->>>>>>> 551a50e88856a00c6c106913828d441d27a13c7b
