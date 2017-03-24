@@ -65,13 +65,23 @@ if (post_password_required()) {
      // If comments are closed and there are comments, let's leave a little note, shall we?
      if (!comments_open() && get_comments_number() && post_type_supports(get_post_type(), 'comments')) : ?>
 
+<<<<<<< HEAD
                 <p class="no-comments"><?php esc_html_e('Comments are closed.', 'bf-anna'); ?></p>
                 <?php
            endif;
+=======
+        <p class="no-comments"><?php esc_html_e('Comments are closed.', 'bf-anna'); ?></p>
+        <?php
+    endif;
+
+
+
+>>>>>>> 551a50e88856a00c6c106913828d441d27a13c7b
     $commenter = wp_get_current_commenter();
     $req = get_option('require_name_email');
     $aria_req = ($req ? " aria-required='true'" : '');
     $fields = array(
+<<<<<<< HEAD
 
         'title' => '<p class="comment-form-age"><label for="age">' . __('Тема відгуку') . '</label>' .
                        '<textarea id="title" name="title" cols="50" rows="50"> </textarea></p>',
@@ -86,5 +96,26 @@ if (post_password_required()) {
     );
     comment_form($comments_args);
  ?>
+=======
+        'title' => '<p class="comment-form-age"><label for="age">' . __('Тема відгуку') . '</label>' .
+            '<textarea id="title" name="title" cols="50" rows="50"> </textarea></p>',
+        'author' => '<p class="comment-form-author">' . '<label for="author">' . __('Name') . '</label> ' . ($req ? '<span class="required">*</span>' : '') .
+            '<input id="author" name="author" type="text" value="' . esc_attr($commenter['comment_author']) . '" size="50" ' . $aria_req . ' /></p>',
+
+    );
+
+$comments_args = array(
+    'fields' => $fields,
+    'title_reply' => 'Ваш відгук дуже важливий для нас',
+    'label_submit' => 'Send ',
+    'comment_notes_before' => ''
+
+);
+comment_form($comments_args);
+
+?>
+>>>>>>> 551a50e88856a00c6c106913828d441d27a13c7b
 
 </div><!-- #comments -->
+
+
