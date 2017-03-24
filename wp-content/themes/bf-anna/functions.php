@@ -208,7 +208,8 @@ function create_posttype()
             'show_in_menu' => true,
             'query_var' => true,
             'rewrite' => true,
-            'supports' => array('title', 'editor')
+            'supports' => array('title', 'editor', 'thumbnail'),
+
         )
     );
 }
@@ -239,7 +240,9 @@ function mytheme_comment($comment, $args, $depth)
 $GLOBALS['comment'] = $comment; ?>
 <li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
     <div id="comment-<?php comment_ID(); ?>">
-
+        <div class="title-for-comment">
+            <?php echo get_comment_meta($comment->comment_ID, 'title', true); ?>
+        </div>
         <div class="comment-meta commentmetadata">
             <div class="comment-avatar vcard"> <?php echo get_avatar(get_the_author_meta('user_email'), 50); ?></div>
             <div class="fn"><?php echo get_comment_author_link() ?></div>
@@ -263,7 +266,7 @@ $GLOBALS['comment'] = $comment; ?>
     <?php function sort_comment_fields($fields)
     {
         $new_fields = array();
-        $myorder = array('author', 'email', 'comment');
+        $myorder = array('title', 'author', 'comment');
 
         foreach ($myorder as $key) {
             $new_fields[$key] = $fields[$key];
@@ -277,7 +280,48 @@ $GLOBALS['comment'] = $comment; ?>
     }
 
     add_filter('comment_form_fields', 'sort_comment_fields');
+
+
+    function remove_comment_fields($fields)
+    {
+        unset($fields['email']);
+        return $fields;
+    }
+
+    add_filter('comment_form_default_fields', 'remove_comment_fields');
+
+    function add_comment_fields($fields)
+    {
+
+        $fields['title'] = '<p class="comment-form-title"><label for="title">' . __('тема відгуку') . '</label>' .
+            '<textarea id="title" name="title" type="text" cols="50" rows="50"></textarea></p>';
+        return $fields;
+
+    }
+
+    add_filter('comment_form_default_fields', 'add_comment_fields');
+
+    add_action('comment_post', 'add_comment_meta_values', 1);
+
+
+    function add_comment_meta_values($comment_id)
+    {
+
+        if (isset($_POST['title'])) {
+            $title = wp_filter_nohtml_kses($_POST['title']);
+            add_comment_meta($comment_id, 'title', $title, false);
+        }
+
+    }
+
+    add_action('comment_post', 'add_comment_meta_values', 1);
     ?>
+
+
+
+
+
+
 
 
 
