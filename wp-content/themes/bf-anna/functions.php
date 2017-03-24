@@ -211,6 +211,24 @@ function create_posttype()
             'supports' => array('title', 'editor')
         )
     );
+
+    //Registering post-type for carousel on front page
+    register_post_type('slider_post',
+        array(
+            'labels' => array(
+                'name' => __('Добавить слайд'),
+                'singular_name' => __('Слайд')
+            ),
+            'public' => false,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'query_var' => true,
+            'rewrite' => true,
+            'supports' => array('editor')
+        )
+    );
+
+
 }
 
 add_action('init', 'create_posttype');
