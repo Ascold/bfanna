@@ -31,11 +31,11 @@
                     <h1><?php bloginfo('name'); ?></h1>
                 </div>
             </div><!-- .site-branding -->
-
             <nav id="site-navigation" class="main-navigation" role="navigation">
                 <button class="menu-toggle" aria-controls="primary-menu"
                         aria-expanded="false"><?php esc_html_e('Primary Menu', 'bf-anna'); ?></button>
-                <?php wp_nav_menu(array('theme_location' => 'menu-1', 'menu_id' => 'primary-menu')); ?>
+                <?php wp_nav_menu(array('theme_location' => 'menu-1', 'menu_id' => 'primary-menu', 'container_class' => 'main-nav-menu')); ?>
+                <?php wp_nav_menu(array('theme_location' => 'menu-2', 'container_class' => 'lang-menu')); ?>
             </nav><!-- #site-navigation -->
         </div>
     </header><!-- #masthead -->
