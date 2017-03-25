@@ -12,6 +12,16 @@ header#masthead {
             }
         }
         .main-navigation {
+            .main-nav-menu {
+                float: left;
+            }
+            .lang-menu {
+                float: right;
+                li {
+                        padding: 10px 10px;
+                        text-decoration: none;
+                }
+            }
             ul.nav-menu {
                 @include clearfix;
                 li {

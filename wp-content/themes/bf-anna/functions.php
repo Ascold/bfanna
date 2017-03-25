@@ -49,6 +49,7 @@ if (!function_exists('bf_anna_setup')) :
         // This theme uses wp_nav_menu() in one location.
         register_nav_menus(array(
             'menu-1' => esc_html__('Primary', 'bf-anna'),
+            'menu-2' => esc_html__('Menu for lang switcher'),
         ));
 
         /*
@@ -115,8 +116,6 @@ function bf_anna_widgets_init()
         'before_title' => '<h2 class="widget-title">',
         'after_title' => '</h2>',
     ));
-
-
 }
 
 add_action('widgets_init', 'bf_anna_widgets_init');

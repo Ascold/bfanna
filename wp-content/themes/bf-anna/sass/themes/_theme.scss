@@ -5,6 +5,13 @@ body {
 header#masthead {
     .main-navigation {
         background: #daaccf;
+        .lang-menu {
+            li {
+                &:hover {
+                    background: inherit;
+                }
+            }
+        }
         li {
             a {
                 color: #333;
