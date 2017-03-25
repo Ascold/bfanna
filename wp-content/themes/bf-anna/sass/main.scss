@@ -2,6 +2,8 @@
 
 @import 'utils/variables';
 
+@import 'mixins/mixins';
+
 @import 'base/typography';
 
 @import 'layout/grid';
@@ -9,6 +11,7 @@
 @import 'layout/footer';
 
 @import 'pages/home';
+@import 'pages/comments';
 
 @import 'themes/theme';
 

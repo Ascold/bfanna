@@ -1,0 +1,9 @@
+footer#colophon {
+    .container-inner {
+        padding: 10px 0;
+        @include clearfix;
+        &>div {
+            float: left;
+        }
+    }
+}
