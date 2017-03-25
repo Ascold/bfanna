@@ -5,6 +5,13 @@ body {
 header#masthead {
     .main-navigation {
         background: #daaccf;
+        .lang-menu {
+            li {
+                &:hover {
+                    background: inherit;
+                }
+            }
+        }
         li {
             a {
                 color: #333;
@@ -22,6 +29,23 @@ header#masthead {
     }
 }
 
+.front-page {
+    .main-carousel {
+        .carousel-indicators {
+            li {
+                border-color: #333;
+                &.active,
+                &:hover {
+                    background: #8d73bc;
+                }
+            }
+        }
+        .carousel-control {
+            background: none;
+            border-color: #333333;
+        }
+    }
+}
 .front-page {
     .main-carousel {
         .carousel-indicators {

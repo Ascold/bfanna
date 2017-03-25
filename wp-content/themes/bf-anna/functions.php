@@ -43,12 +43,16 @@ if (!function_exists('bf_anna_setup')) :
          */
         add_theme_support('post-thumbnails');
 
+
+        //Add thumbnail size for carousel slides
+        add_image_size('slider-image', 750, 400, true)
         add_image_size('album-grid', 500, 300, true);
 
 
         // This theme uses wp_nav_menu() in one location.
         register_nav_menus(array(
             'menu-1' => esc_html__('Primary', 'bf-anna'),
+            'menu-2' => esc_html__('Menu for lang switcher'),
         ));
 
         /*
@@ -115,8 +119,6 @@ function bf_anna_widgets_init()
         'before_title' => '<h2 class="widget-title">',
         'after_title' => '</h2>',
     ));
-
-
 }
 
 add_action('widgets_init', 'bf_anna_widgets_init');
@@ -147,6 +149,10 @@ function bf_anna_scripts()
     wp_register_script('bootstrap-js', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js');
     wp_enqueue_script('bootstrap-js');
 
+    //Register Font Awesome
+    wp_register_script('font-awesome', '//use.fontawesome.com/6eebe0124d.js');
+    wp_enqueue_script('font-awesome');
+
     //Register main.js file
     wp_enqueue_script('main-js-file', get_template_directory_uri() . '/js/main.js');
 
@@ -161,6 +167,16 @@ function bf_anna_scripts()
 }
 
 add_action('wp_enqueue_scripts', 'bf_anna_scripts');
+
+/**
+ * Loading google fonts
+ */
+function load_fonts()
+{
+    wp_register_style('et-googleFonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i" rel="stylesheet');
+    wp_enqueue_style('et-googleFonts');
+}
+add_action('wp_print_styles', 'load_fonts');
 
 /**
  * Implement the Custom Header feature.
@@ -187,17 +203,6 @@ require get_template_directory() . '/inc/customizer.php';
  */
 require get_template_directory() . '/inc/jetpack.php';
 
-/**
- * Loading google fonts
- */
-function load_fonts()
-{
-    wp_register_style('et-googleFonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i" rel="stylesheet');
-    wp_enqueue_style('et-googleFonts');
-}
-
-add_action('wp_print_styles', 'load_fonts');
-
 function create_posttype()
 {
     register_post_type('photo_gallery_img',
@@ -212,6 +217,25 @@ function create_posttype()
             'query_var' => true,
             'rewrite' => true,
             'supports' => array('title', 'editor', 'thumbnail')
+        )
+    );
+
+    //Registering post-type for carousel on front page
+    register_post_type('slider_post',
+        array(
+            'labels' => array(
+                'name' => __('Слайды'),
+                'singular_name' => __('Слайд'),
+                'add_new' => __('Новый слайд'),
+                'menu_name' => __('Слайды карусели'),
+                'edit_item' => __('Изменить слайд')
+            ),
+            'public' => false,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'query_var' => true,
+            'rewrite' => true,
+            'supports' => array('thumbnail', 'title')
         )
     );
 }

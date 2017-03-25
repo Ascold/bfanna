@@ -2,7 +2,7 @@ header#masthead {
     .container-inner {
         @include clearfix;
         .site-branding {
-            padding: 0 128px;
+            padding: 0 80px;
             .header-logo {
                 float: left;
             }
@@ -12,11 +12,21 @@ header#masthead {
             }
         }
         .main-navigation {
+            .main-nav-menu {
+                float: left;
+            }
+            .lang-menu {
+                float: right;
+                li {
+                        padding: 10px 10px;
+                        text-decoration: none;
+                }
+            }
             ul.nav-menu {
                 @include clearfix;
                 li {
                     a {
-                        padding: 15px 20px;
+                        padding: 10px 15px;
                         text-decoration: none;
                     }
                     &:not(:last-child) {
@@ -25,7 +35,7 @@ header#masthead {
                 }
                 .sub-menu {
                     top: 0;
-                    margin-top: 61px;
+                    margin-top: 40px;
                     li {
                         margin: 0;
                         a {
