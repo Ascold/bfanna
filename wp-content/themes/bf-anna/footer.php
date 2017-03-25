@@ -14,11 +14,14 @@
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
-		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'bf-anna' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'bf-anna' ), 'WordPress' ); ?></a>
-			<span class="sep"> | </span>
-			<?php printf( esc_html__( 'Theme: %1$s by %2$s.', 'bf-anna' ), 'bf-anna', '<a href="https://automattic.com/" rel="designer">Underscores.me</a>' ); ?>
-		</div><!-- .site-info -->
+        <div class="container-inner">
+            <div>
+                <?php echo date('Y'); ?>
+            </div>
+            <div>
+                <p>&nbsp;&copy;&nbsp;Made by GeekHub students</p>
+            </div>
+        </div>
 	</footer><!-- #colophon -->
 </div><!-- #page -->
 

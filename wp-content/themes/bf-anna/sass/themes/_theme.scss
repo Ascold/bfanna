@@ -1,0 +1,48 @@
+body {
+    background-color: #d1c3d0;
+}
+
+header#masthead {
+    .main-navigation {
+        background: #daaccf;
+        .lang-menu {
+            li {
+                &:hover {
+                    background: inherit;
+                }
+            }
+        }
+        li {
+            a {
+                color: #333;
+            }
+            &:hover {
+                background: #8d73bc;
+            }
+            .sub-menu {
+                background: #daaccf;
+            }
+        }
+        .current-menu-item {
+                background: #8d73bc;
+        }
+    }
+}
+
+.front-page {
+    .main-carousel {
+        .carousel-indicators {
+            li {
+                border-color: #333;
+                &.active,
+                &:hover {
+                    background: #8d73bc;
+                }
+            }
+        }
+        .carousel-control {
+            background: none;
+            border-color: #333333;
+        }
+    }
+}

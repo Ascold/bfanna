@@ -1,0 +1,49 @@
+header#masthead {
+    .container-inner {
+        @include clearfix;
+        .site-branding {
+            padding: 0 80px;
+            .header-logo {
+                float: left;
+            }
+            .header-title {
+                padding-top: 72px;
+                float: right;
+            }
+        }
+        .main-navigation {
+            .main-nav-menu {
+                float: left;
+            }
+            .lang-menu {
+                float: right;
+                li {
+                        padding: 10px 10px;
+                        text-decoration: none;
+                }
+            }
+            ul.nav-menu {
+                @include clearfix;
+                li {
+                    a {
+                        padding: 10px 15px;
+                        text-decoration: none;
+                    }
+                    &:not(:last-child) {
+                        margin-right: 10px;
+                    }
+                }
+                .sub-menu {
+                    top: 0;
+                    margin-top: 40px;
+                    li {
+                        margin: 0;
+                        a {
+                            width: 315px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
