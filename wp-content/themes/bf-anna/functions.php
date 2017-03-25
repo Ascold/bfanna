@@ -279,6 +279,28 @@ $GLOBALS['comment'] = $comment; ?>
     add_filter('comment_form_fields', 'sort_comment_fields');
     ?>
 
+    <?php
+    // add meta box for contacts page
+    function contacts_page_ru_metabox() {
+        $post_id = $_GET['post'] ? $_GET['post'] : $_POST['post_ID'];
+
+        if ($post_id == 121){
+            add_meta_box('contacts_page_ru', 'Контактные данные', 'contacts_page_ru_callback', 'page');
+        }
+    }
+
+    function contacts_page_ru_callback() {
+        echo '<label for="contact_type">Наименование контактных данных (телефон, адрес, email)</label>';
+        echo '<select name="contact_type" id="contact_type">';
+            echo '<option value="address">Адрес</option>';
+            echo '<option value="phone">Телефон</option>';
+            echo '<option value="email"></option>';
+        echo '</select>';
+        echo '<label for="contact_data">Контактные данные</label>';
+        echo '<textarea name="contact_data" id="contact_data"></textarea>';
+    }
+
+    add_action('admin_init', 'contacts_page_ru_metabox');
 
 
-
+    ?>

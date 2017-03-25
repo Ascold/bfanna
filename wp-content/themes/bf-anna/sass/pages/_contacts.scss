@@ -1,0 +1,19 @@
+// contacts-page layout
+.contacts-wrapper {
+    padding: 30px 15px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.contacts-text, .contacts-map {
+    box-sizing: border-box;
+    width: 50%;
+    float: left;
+}
+
+.contacts-map {
+    padding: 40px;
+}
