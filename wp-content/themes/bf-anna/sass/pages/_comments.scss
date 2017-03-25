@@ -1,0 +1,101 @@
+.comments-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+    .comment-list {
+        padding: 60px 0;
+
+        .comment {
+            .comment-inner {
+                background: #f8f8f8;
+                margin-right: 125px;
+                border-radius: 12px;
+                .title-for-comment {
+                    padding: 25px 30px 0 20px;
+                    h3 {
+                        border-bottom: 1px solid lightgrey;
+                        padding-bottom: 20px;
+                    }
+                }
+                .comment-text {
+                    padding: 20px 30px 0;
+                    p {
+                        text-align: left;
+                        border-bottom: 1px solid lightgrey;
+                        padding-bottom: 20px;
+                    }
+                }
+                .comment-footer {
+                    padding: 0 25px 30px;
+                    @include clearfix;
+                    .comment-meta {
+                        float: left;
+
+                    }
+                    .reply {
+                        @include clearfix;
+                        float: right;
+                        a {
+                            color: inherit;
+
+                            &:hover {
+                                color: inherit;
+                                text-decoration: none;
+                            }
+
+                        }
+                    }
+                }
+            }
+            .children {
+                padding-left: 210px;
+                margin: 20px 0;
+                .title-for-comment {
+                    display: none;
+                }
+                li {
+                    margin-bottom: 15px;
+                }
+                .comment-inner {
+                    margin: 0;
+                }
+
+            }
+
+        }
+
+    }
+    .comment-respond {
+        text-align: center;
+        .comment-reply-title {
+            margin-bottom: 25px;
+        }
+    }
+    form {
+        box-shadow: 0 0 70px #d4e2e5;
+        padding: 16px 0;
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+        p {
+            margin-bottom: 15px;
+            label {
+                margin-right: 20px;
+            }
+            input {
+                border-radius: 12px;
+                padding: 10px 18px;
+            }
+        }
+
+        .text-area-comment {
+            max-width: 760px;
+            border-radius: 12px;
+        }
+        .comment-form-author{
+            label{
+                margin-right: 120px;
+            }
+        }
+    }
+}

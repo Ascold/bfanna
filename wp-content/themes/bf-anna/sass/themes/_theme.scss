@@ -17,7 +17,25 @@ header#masthead {
             }
         }
         .current-menu-item {
-                background: #8d73bc;
+            background: #8d73bc;
+        }
+    }
+}
+
+.front-page {
+    .main-carousel {
+        .carousel-indicators {
+            li {
+                border-color: #333;
+                &.active,
+                &:hover {
+                    background: #8d73bc;
+                }
+            }
+        }
+        .carousel-control {
+            background: none;
+            border-color: #333333;
         }
     }
 }

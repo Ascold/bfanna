@@ -18,3 +18,39 @@ header {
         }
     }
 }
+
+.comments-page {
+    .comment-list {
+        .comment {
+            h3, .reply {
+                font-size: 23px;
+                font-weight: 600;
+            }
+            .comment-text{
+                font-size:19px;
+                font-weight: 500;
+                font-style: italic;
+            }
+            .comment-meta{
+                .fn{
+                    font-size: 23px;
+                    font-weight:800 ;
+                }
+            }
+
+        }
+
+    }
+    .comment-respond {
+        h3 {
+            font-size: 34px;
+            font-weight:800 ;
+        }
+        form{
+            label, input {
+                font-size: 23px;
+                font-weight: 600;
+            }
+        }
+    }
+}
