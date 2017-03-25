@@ -6,10 +6,7 @@ get_header(); ?>
 
     <div id="primary" class="content-area">
         <main id="main" class="site-main" role="main">
-
             <?php
-
-
             $args = array(
                 'post_type' => 'photo_gallery_img',
                 'posts_per_page' => -1

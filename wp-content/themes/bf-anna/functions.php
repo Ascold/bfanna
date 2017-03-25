@@ -194,6 +194,8 @@ function load_fonts()
 {
     wp_register_style('et-googleFonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i" rel="stylesheet');
     wp_enqueue_style('et-googleFonts');
+
+
 }
 
 add_action('wp_print_styles', 'load_fonts');
@@ -326,6 +328,7 @@ $GLOBALS['comment'] = $comment; ?>
     });
 
     ?>
+
 
 
 
