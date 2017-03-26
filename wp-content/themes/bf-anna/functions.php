@@ -43,8 +43,11 @@ if (!function_exists('bf_anna_setup')) :
          */
         add_theme_support('post-thumbnails');
 
+
         //Add thumbnail size for carousel slides
-        add_image_size('slider-image', 750, 400, true);
+        add_image_size('slider-image', 750, 400, true)
+        add_image_size('album-grid', 500, 300, true);
+
 
         // This theme uses wp_nav_menu() in one location.
         register_nav_menus(array(
@@ -213,7 +216,7 @@ function create_posttype()
             'show_in_menu' => true,
             'query_var' => true,
             'rewrite' => true,
-            'supports' => array('title', 'editor')
+            'supports' => array('title', 'editor', 'thumbnail')
         )
     );
 
@@ -239,7 +242,7 @@ function create_posttype()
 
 add_action('init', 'create_posttype');
 
-add_image_size('album-grid', 500, 300, true);
+
 
 //включение комментариев для страниц по умолчанию start
 function wph_enable_comments_pages($status, $post_type, $comment_type)
@@ -263,23 +266,27 @@ function mytheme_comment($comment, $args, $depth)
 $GLOBALS['comment'] = $comment; ?>
 <li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
     <div id="comment-<?php comment_ID(); ?>">
-
-        <div class="comment-meta commentmetadata">
-            <div class="comment-avatar vcard"> <?php echo get_avatar(get_the_author_meta('user_email'), 50); ?></div>
-            <div class="fn"><?php echo get_comment_author_link() ?></div>
-            <div>
-                <time datetime="<?php comment_time('c'); ?>">
-                    <?php printf(_x('%s назад', '%s = human-readable time difference', 'your-text-domain'), human_time_diff(get_comment_time('U'), current_time('timestamp'))); ?>
-                </time>
+        <div class="comment-inner">
+            <div class="title-for-comment">
+                <h3>
+                    <?php echo get_comment_meta($comment->comment_ID, 'title', true); ?>
+                </h3>
             </div>
-
-            <div class="reply">
-                <?php comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+            <div class="comment-text">
+                <?php comment_text() ?>
+            </div>
+            <div class="comment-footer">
+                <div class="comment-meta commentmetadata">
+                    <div class="fn"><?php echo get_comment_author_link() ?></div>
+                </div>
+                <div class="reply">
+                    <?php comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+                </div>
             </div>
         </div>
-        <?php comment_text() ?>
 
     </div>
+
     <?php
     }
 
@@ -287,7 +294,7 @@ $GLOBALS['comment'] = $comment; ?>
     <?php function sort_comment_fields($fields)
     {
         $new_fields = array();
-        $myorder = array('author', 'email', 'comment');
+        $myorder = array('author', 'title', 'comment');
 
         foreach ($myorder as $key) {
             $new_fields[$key] = $fields[$key];
@@ -301,7 +308,49 @@ $GLOBALS['comment'] = $comment; ?>
     }
 
     add_filter('comment_form_fields', 'sort_comment_fields');
+
+    function remove_comment_fields($fields)
+    {
+        unset($fields['email']);
+        return $fields;
+    }
+
+    add_filter('comment_form_default_fields', 'remove_comment_fields');
+
+    function add_comment_fields($fields)
+    {
+
+        $fields['title'] = '<p class="comment-form-title"><label for="title">' . __('тема відгуку') . '</label>' .
+            '<input id="title" class="title-comment"  type="text" size="40"/></p>';
+        return $fields;
+
+    }
+
+    add_filter('comment_form_default_fields', 'add_comment_fields');
+
+    add_action('comment_post', 'add_comment_meta_values', 1);
+
+
+    function add_comment_meta_values($comment_id)
+    {
+
+        if (isset($_POST['title'])) {
+            $title = wp_filter_nohtml_kses($_POST['title']);
+            add_comment_meta($comment_id, 'title', $title, false);
+        }
+    }
+
+    add_action('comment_post', 'add_comment_meta_values', 1);
+
     ?>
+
+    <?php
+    add_filter('comments_array', function ($comments) {
+        return array_reverse($comments);
+    });
+
+    ?>
+
 
 
 
