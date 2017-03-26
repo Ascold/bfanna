@@ -45,7 +45,7 @@ if (!function_exists('bf_anna_setup')) :
 
 
         //Add thumbnail size for carousel slides
-        add_image_size('slider-image', 750, 400, true)
+        add_image_size('slider-image', 750, 400, true);
         add_image_size('album-grid', 500, 300, true);
 
 
@@ -203,22 +203,8 @@ require get_template_directory() . '/inc/customizer.php';
  */
 require get_template_directory() . '/inc/jetpack.php';
 
-<<<<<<< HEAD
-/**
- * Loading google fonts
- */
-function load_fonts()
-{
-    wp_register_style('et-googleFonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i" rel="stylesheet');
-    wp_enqueue_style('et-googleFonts');
-
-
-}
-
 add_action('wp_print_styles', 'load_fonts');
 
-=======
->>>>>>> 00fdcbe2a1c385123bb5fbee6a8cb462bd6bc8e6
 function create_posttype()
 {
     register_post_type('photo_gallery_img',
