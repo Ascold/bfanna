@@ -43,6 +43,9 @@ header#masthead {
         .carousel-control {
             background: none;
             border-color: #333333;
+            &:hover {
+                color: #8d73bc;
+            }
         }
     }
 }
