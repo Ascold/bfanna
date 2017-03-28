@@ -1,0 +1,33 @@
+.assistance-page {
+    .assistance-wrapper {
+        padding: 20px 15px;
+    }
+
+    .assistance-requisites, .assistance-title {
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    // blocks formatting
+    h2 {
+        margin-top: 30px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    h3 {
+        margin-bottom: 20px;
+    }
+
+    @media (min-width: 850px) {
+        .assistance-requisites, .assistance-title {
+            width: 50%;
+            float: left;
+            padding: 20px;
+        }
+
+        iframe {
+            width: 100%;
+        }
+    }
+}

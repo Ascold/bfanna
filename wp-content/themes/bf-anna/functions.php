@@ -43,9 +43,16 @@ if (!function_exists('bf_anna_setup')) :
          */
         add_theme_support('post-thumbnails');
 
+
+        //Add thumbnail size for carousel slides
+        add_image_size('slider-image', 750, 400, true);
+        add_image_size('album-grid', 500, 300, true);
+
+
         // This theme uses wp_nav_menu() in one location.
         register_nav_menus(array(
             'menu-1' => esc_html__('Primary', 'bf-anna'),
+            'menu-2' => esc_html__('Menu for lang switcher'),
         ));
 
         /*
@@ -112,8 +119,6 @@ function bf_anna_widgets_init()
         'before_title' => '<h2 class="widget-title">',
         'after_title' => '</h2>',
     ));
-
-
 }
 
 add_action('widgets_init', 'bf_anna_widgets_init');
@@ -144,6 +149,10 @@ function bf_anna_scripts()
     wp_register_script('bootstrap-js', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js');
     wp_enqueue_script('bootstrap-js');
 
+    //Register Font Awesome
+    wp_register_script('font-awesome', '//use.fontawesome.com/6eebe0124d.js');
+    wp_enqueue_script('font-awesome');
+
     //Register main.js file
     wp_enqueue_script('main-js-file', get_template_directory_uri() . '/js/main.js');
 
@@ -158,6 +167,16 @@ function bf_anna_scripts()
 }
 
 add_action('wp_enqueue_scripts', 'bf_anna_scripts');
+
+/**
+ * Loading google fonts
+ */
+function load_fonts()
+{
+    wp_register_style('et-googleFonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i" rel="stylesheet');
+    wp_enqueue_style('et-googleFonts');
+}
+add_action('wp_print_styles', 'load_fonts');
 
 /**
  * Implement the Custom Header feature.
@@ -184,17 +203,6 @@ require get_template_directory() . '/inc/customizer.php';
  */
 require get_template_directory() . '/inc/jetpack.php';
 
-/**
- * Loading google fonts
- */
-function load_fonts()
-{
-    wp_register_style('et-googleFonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i" rel="stylesheet');
-    wp_enqueue_style('et-googleFonts');
-}
-
-add_action('wp_print_styles', 'load_fonts');
-
 function create_posttype()
 {
     register_post_type('photo_gallery_img',
@@ -208,14 +216,33 @@ function create_posttype()
             'show_in_menu' => true,
             'query_var' => true,
             'rewrite' => true,
-            'supports' => array('title', 'editor')
+            'supports' => array('title', 'editor', 'thumbnail')
+        )
+    );
+
+    //Registering post-type for carousel on front page
+    register_post_type('slider_post',
+        array(
+            'labels' => array(
+                'name' => __('Слайды'),
+                'singular_name' => __('Слайд'),
+                'add_new' => __('Новый слайд'),
+                'menu_name' => __('Слайды карусели'),
+                'edit_item' => __('Изменить слайд')
+            ),
+            'public' => false,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'query_var' => true,
+            'rewrite' => true,
+            'supports' => array('thumbnail', 'title')
         )
     );
 }
 
 add_action('init', 'create_posttype');
 
-add_image_size('album-grid', 500, 300, true);
+
 
 //включение комментариев для страниц по умолчанию start
 function wph_enable_comments_pages($status, $post_type, $comment_type)
@@ -239,23 +266,27 @@ function mytheme_comment($comment, $args, $depth)
 $GLOBALS['comment'] = $comment; ?>
 <li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
     <div id="comment-<?php comment_ID(); ?>">
-
-        <div class="comment-meta commentmetadata">
-            <div class="comment-avatar vcard"> <?php echo get_avatar(get_the_author_meta('user_email'), 50); ?></div>
-            <div class="fn"><?php echo get_comment_author_link() ?></div>
-            <div>
-                <time datetime="<?php comment_time('c'); ?>">
-                    <?php printf(_x('%s назад', '%s = human-readable time difference', 'your-text-domain'), human_time_diff(get_comment_time('U'), current_time('timestamp'))); ?>
-                </time>
+        <div class="comment-inner">
+            <div class="title-for-comment">
+                <h3>
+                    <?php echo get_comment_meta($comment->comment_ID, 'title', true); ?>
+                </h3>
             </div>
-
-            <div class="reply">
-                <?php comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+            <div class="comment-text">
+                <?php comment_text() ?>
+            </div>
+            <div class="comment-footer">
+                <div class="comment-meta commentmetadata">
+                    <div class="fn"><?php echo get_comment_author_link() ?></div>
+                </div>
+                <div class="reply">
+                    <?php comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+                </div>
             </div>
         </div>
-        <?php comment_text() ?>
 
     </div>
+
     <?php
     }
 
@@ -263,7 +294,7 @@ $GLOBALS['comment'] = $comment; ?>
     <?php function sort_comment_fields($fields)
     {
         $new_fields = array();
-        $myorder = array('author', 'email', 'comment');
+        $myorder = array('author', 'title', 'comment');
 
         foreach ($myorder as $key) {
             $new_fields[$key] = $fields[$key];
@@ -277,30 +308,45 @@ $GLOBALS['comment'] = $comment; ?>
     }
 
     add_filter('comment_form_fields', 'sort_comment_fields');
-    ?>
 
-    <?php
-    // add meta box for contacts page
-    function contacts_page_ru_metabox() {
-        $post_id = $_GET['post'] ? $_GET['post'] : $_POST['post_ID'];
+    function remove_comment_fields($fields)
+    {
+        unset($fields['email']);
+        return $fields;
+    }
 
-        if ($post_id == 121){
-            add_meta_box('contacts_page_ru', 'Контактные данные', 'contacts_page_ru_callback', 'page');
+    add_filter('comment_form_default_fields', 'remove_comment_fields');
+
+    function add_comment_fields($fields)
+    {
+
+        $fields['title'] = '<p class="comment-form-title"><label for="title">' . __('тема відгуку') . '</label>' .
+            '<input id="title" class="title-comment"  type="text" size="40"/></p>';
+        return $fields;
+
+    }
+
+    add_filter('comment_form_default_fields', 'add_comment_fields');
+
+    add_action('comment_post', 'add_comment_meta_values', 1);
+
+
+    function add_comment_meta_values($comment_id)
+    {
+
+        if (isset($_POST['title'])) {
+            $title = wp_filter_nohtml_kses($_POST['title']);
+            add_comment_meta($comment_id, 'title', $title, false);
         }
     }
 
-    function contacts_page_ru_callback() {
-        echo '<label for="contact_type">Наименование контактных данных (телефон, адрес, email)</label>';
-        echo '<select name="contact_type" id="contact_type">';
-            echo '<option value="address">Адрес</option>';
-            echo '<option value="phone">Телефон</option>';
-            echo '<option value="email"></option>';
-        echo '</select>';
-        echo '<label for="contact_data">Контактные данные</label>';
-        echo '<textarea name="contact_data" id="contact_data"></textarea>';
-    }
+    add_action('comment_post', 'add_comment_meta_values', 1);
 
-    add_action('admin_init', 'contacts_page_ru_metabox');
+    ?>
 
+    <?php
+    add_filter('comments_array', function ($comments) {
+        return array_reverse($comments);
+    });
 
     ?>

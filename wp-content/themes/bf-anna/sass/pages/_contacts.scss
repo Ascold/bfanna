@@ -1,19 +1,39 @@
 // contacts-page layout
-.contacts-wrapper {
-    padding: 30px 15px;
-}
+.contacts-page {
 
-h2 {
-    margin-bottom: 20px;
-    text-align: center;
-}
+    .contacts-wrapper {
+        padding: 20px 15px;
+    }
 
-.contacts-text, .contacts-map {
-    box-sizing: border-box;
-    width: 50%;
-    float: left;
-}
+    .contacts-text, .contacts-map {
+        box-sizing: border-box;
+        width: 100%;
+    }
 
-.contacts-map {
-    padding: 40px;
+    // blocks formatting
+    h2 {
+        margin-top: 30px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    h3 {
+        margin-bottom: 20px;
+    }
+
+    .contacts-item-text {
+        margin-bottom: 20px;
+    }
+
+    @media (min-width: 850px) {
+        .contacts-text, .contacts-map {
+            width: 50%;
+            float: left;
+            padding: 20px;
+        }
+
+        iframe {
+            width: 100%;
+        }
+    }
 }
