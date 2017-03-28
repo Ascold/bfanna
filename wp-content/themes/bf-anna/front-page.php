@@ -12,7 +12,9 @@ get_header(); ?>
                     <section class="main-carousel">
                         <?php $args = array(
                             'post_type' => 'slider_post',
+
 //                            'posts_per_page' => -1
+
                         );
                         $slider = new WP_Query($args);
                         if ($slider->have_posts()) : ?>
@@ -28,6 +30,7 @@ get_header(); ?>
                                     <?php $i++;
                                 endwhile;
                                 else: ?>
+
                                 <h3>No slide</h3>
                             </ul>
                             <?php endif; ?>
@@ -62,6 +65,7 @@ get_header(); ?>
                     <br>
                     <!-- Section with content of page -->
                     <?php /* Start the Loop */
+
                     while (have_posts()) : the_post();
 
                         /*
@@ -70,7 +74,6 @@ get_header(); ?>
                         * called content-___.php (where ___ is the Post Format name) and that will be used instead.
                         */
                         get_template_part('template-parts/content', 'front-page');
-
                     endwhile; ?>
                     <br>
                     <br>
