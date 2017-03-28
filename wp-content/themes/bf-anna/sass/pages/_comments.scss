@@ -13,7 +13,6 @@
                 .title-for-comment {
                     padding: 25px 30px 0 20px;
                     h3 {
-                        border-bottom: 1px solid lightgrey;
                         padding-bottom: 20px;
                     }
                 }
@@ -26,11 +25,10 @@
                     }
                 }
                 .comment-footer {
-                    padding: 15px 25px 15px ;
+                    padding: 15px 25px 15px;
                     @include clearfix;
                     .comment-meta {
                         float: left;
-
 
                     }
                     .reply {
@@ -38,7 +36,7 @@
                         float: right;
                         a {
                             color: inherit;
-                            padding:0 10px 5px  ;
+                            padding: 0 10px 5px;
 
                             &:hover {
                                 color: inherit;
@@ -92,8 +90,8 @@
                 border-radius: 12px;
                 padding: 10px 18px;
             }
-            .submit{
-                &:hover{
+            .submit {
+                &:hover {
                     color: whitesmoke;
                     background-color: grey;
                 }
@@ -104,8 +102,8 @@
             max-width: 760px;
             border-radius: 12px;
         }
-        .comment-form-author{
-            label{
+        .comment-form-author {
+            label {
                 margin-right: 120px;
             }
         }
