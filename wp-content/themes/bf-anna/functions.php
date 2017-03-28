@@ -45,7 +45,8 @@ if (!function_exists('bf_anna_setup')) :
 
 
         //Add thumbnail size for carousel slides
-        add_image_size('slider-image', 750, 400, true)
+        add_image_size('slider-image', 1000, 400, true);
+
         add_image_size('album-grid', 500, 300, true);
 
 
@@ -203,6 +204,8 @@ require get_template_directory() . '/inc/customizer.php';
  */
 require get_template_directory() . '/inc/jetpack.php';
 
+add_action('wp_print_styles', 'load_fonts');
+
 function create_posttype()
 {
     register_post_type('photo_gallery_img',
@@ -350,8 +353,5 @@ $GLOBALS['comment'] = $comment; ?>
     });
 
     ?>
-
-
-
 
 
