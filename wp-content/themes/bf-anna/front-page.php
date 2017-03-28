@@ -8,13 +8,11 @@ get_header(); ?>
         <div class="container-inner">
             <div id="primary" class="content-area">
                 <main id="main" class="site-main" role="main">
-                    <!-- This is a carousel sectionv-->
+                    <!-- This is a carousel section-->
                     <section class="main-carousel">
                         <?php $args = array(
                             'post_type' => 'slider_post',
-
 //                            'posts_per_page' => -1
-
                         );
                         $slider = new WP_Query($args);
                         if ($slider->have_posts()) : ?>
@@ -30,7 +28,6 @@ get_header(); ?>
                                     <?php $i++;
                                 endwhile;
                                 else: ?>
-
                                 <h3>No slide</h3>
                             </ul>
                             <?php endif; ?>
