@@ -10,6 +10,14 @@
         width: 100%;
     }
 
+    .contacts-map {
+        text-align: center;
+    }
+
+    iframe {
+        width: 100%;
+    }
+
     // blocks formatting
     h2 {
         margin-top: 30px;
@@ -32,8 +40,12 @@
             padding: 20px;
         }
 
-        iframe {
-            width: 100%;
+        .contacts-map {
+            width: 70%;
+        }
+
+        .contacts-text {
+            width: 30%;
         }
     }
 }
