@@ -45,8 +45,9 @@ if (!function_exists('bf_anna_setup')) :
 
 
         //Add thumbnail size for carousel slides
-        add_image_size('slider-image', 750, 400, true)
+        add_image_size('slider-image', 750, 400, true);
         add_image_size('album-grid', 500, 300, true);
+        add_image_size('thumb-gallery', 350, 250, true);
 
 
         // This theme uses wp_nav_menu() in one location.
@@ -141,6 +142,10 @@ function bf_anna_scripts()
     wp_enqueue_script('OwlCarousel-scripts', get_stylesheet_directory_uri() . '/libs/OwlCarousel/dist/owl.carousel.min.js', array('jquery'), ' ');
     wp_enqueue_style('OwlCarousel', get_template_directory_uri() . '/libs/OwlCarousel/dist/assets/owl.carousel.min.css', array(), ' ');
 
+    //Register flex-slider files
+    wp_enqueue_script('flexslider-scripts', get_stylesheet_directory_uri() . '/libs/flexslider/jquery.flexslider.js ', array('jquery'), ' ');
+    wp_enqueue_style('flexslider', get_template_directory_uri() . '/libs/flexslider/flexslider.css', array(), ' ');
+
     //Register bootstrap css from CDN
     wp_register_style('bootstrap-css', '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
     wp_enqueue_style('bootstrap-css');
@@ -155,6 +160,7 @@ function bf_anna_scripts()
 
     //Register main.js file
     wp_enqueue_script('main-js-file', get_template_directory_uri() . '/js/main.js');
+
 
     //Register main.css file
     $theme_uri = get_template_directory_uri();
@@ -176,6 +182,7 @@ function load_fonts()
     wp_register_style('et-googleFonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i" rel="stylesheet');
     wp_enqueue_style('et-googleFonts');
 }
+
 add_action('wp_print_styles', 'load_fonts');
 
 /**
@@ -203,22 +210,12 @@ require get_template_directory() . '/inc/customizer.php';
  */
 require get_template_directory() . '/inc/jetpack.php';
 
-<<<<<<< HEAD
+
 /**
  * Loading google fonts
  */
-function load_fonts()
-{
-    wp_register_style('et-googleFonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i" rel="stylesheet');
-    wp_enqueue_style('et-googleFonts');
-
-
-}
-
 add_action('wp_print_styles', 'load_fonts');
 
-=======
->>>>>>> 00fdcbe2a1c385123bb5fbee6a8cb462bd6bc8e6
 function create_posttype()
 {
     register_post_type('photo_gallery_img',
@@ -232,7 +229,7 @@ function create_posttype()
             'show_in_menu' => true,
             'query_var' => true,
             'rewrite' => true,
-            'supports' => array('title', 'editor', 'thumbnail')
+            'supports' => array('title', 'editor', 'thumbnail','custom-fields')
         )
     );
 
@@ -257,7 +254,6 @@ function create_posttype()
 }
 
 add_action('init', 'create_posttype');
-
 
 
 //включение комментариев для страниц по умолчанию start
@@ -365,7 +361,100 @@ $GLOBALS['comment'] = $comment; ?>
         return array_reverse($comments);
     });
 
-    ?>
+
+add_action( 'wp_enqueue_scripts', 'custom_shortcode_scripts');
+function custom_shortcode_scripts() {
+    global $post;
+    if( has_shortcode( $post->post_content, 'gallery') ) {
+        wp_enqueue_script( 'custom-script');
+    }
+}
+
+
+
+function my_meta_box() {
+    add_meta_box(
+        'date-album', // Идентификатор(id)
+        'date-album', // Заголовок области с мета-полями(title)
+        'show_my_metabox', // Вызов(callback)
+        'photo_gallery_img', // Где будет отображаться наше поле
+        'normal',
+        'high');
+}
+add_action('add_meta_boxes', 'my_meta_box'); // Запускаем функцию
+
+$meta_fields = array(
+    array(
+        'label' => 'Дата',
+        'desc'  => 'Введите дату',
+        'id'    => 'date-album', // даем идентификатор.
+        'type'  => 'text'  // Указываем тип поля.
+    )
+
+
+);
+// Вызов метаполей
+function show_my_metabox() {
+    global $meta_fields; // Обозначим наш массив с полями глобальным
+    global $post;  // Глобальный $post для получения id создаваемого/редактируемого поста
+// Выводим скрытый input, для верификации. Безопасность прежде всего!
+    echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce(basename(__FILE__)).'" />';
+
+    // Начинаем выводить таблицу с полями через цикл
+    echo '<table class="form-table">';
+    foreach ($meta_fields as $field) {
+        // Получаем значение если оно есть для этого поля
+        $meta = get_post_meta($post->ID, $field['id'], true);
+        // Начинаем выводить таблицу
+        echo '<tr> 
+                <th><label for="'.$field['id'].'">'.$field['label'].'</label></th> 
+                <td>';
+        switch($field['type']) {
+            case 'text':
+                echo '<input type="text" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $meta . '" size="30" />
+        <br /><span class="description">' . $field['desc'] . '</span>';
+                break;
+            case 'textarea':
+                echo '<textarea name="' . $field['id'] . '" id="' . $field['id'] . '" cols="60" rows="4">' . $meta . '</textarea> 
+        <br /><span class="description">' . $field['desc'] . '</span>';
+                break;
+        }
+        echo '</td></tr>';
+    }
+    echo '</table>';
+}
+
+
+// Пишем функцию для сохранения
+function save_my_meta_fields($post_id) {
+    global $meta_fields;  // Массив с нашими полями
+
+    // проверяем наш проверочный код
+    if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__)))
+        return $post_id;
+    // Проверяем авто-сохранение
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+        return $post_id;
+    // Проверяем права доступа
+    if ('page' == $_POST['post_type']) {
+        if (!current_user_can('edit_page', $post_id))
+            return $post_id;
+    } elseif (!current_user_can('edit_post', $post_id)) {
+        return $post_id;
+    }
+
+    // Если все отлично, прогоняем массив через foreach
+    foreach ($meta_fields as $field) {
+        $old = get_post_meta($post_id, $field['id'], true); // Получаем старые данные (если они есть), для сверки
+        $new = $_POST[$field['id']];
+        if ($new && $new != $old) {  // Если данные новые
+            update_post_meta($post_id, $field['id'], $new); // Обновляем данные
+        } elseif ('' == $new && $old) {
+            delete_post_meta($post_id, $field['id'], $old); // Если данных нету, удаляем мету.
+        }
+    } // end foreach
+}
+add_action('save_post', 'save_my_meta_fields'); // Запускаем функцию сохранения
 
 
 
