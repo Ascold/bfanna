@@ -46,20 +46,4 @@ header#masthead {
         }
     }
 }
-.front-page {
-    .main-carousel {
-        .carousel-indicators {
-            li {
-                border-color: #333;
-                &.active,
-                &:hover {
-                    background: #8d73bc;
-                }
-            }
-        }
-        .carousel-control {
-            background: none;
-            border-color: #333333;
-        }
-    }
-}
+

@@ -45,7 +45,8 @@ if (!function_exists('bf_anna_setup')) :
 
 
         //Add thumbnail size for carousel slides
-        add_image_size('slider-image', 750, 400, true);
+        add_image_size('slider-image', 1000, 400, true);
+
         add_image_size('album-grid', 500, 300, true);
 
 

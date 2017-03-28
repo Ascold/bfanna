@@ -3,12 +3,12 @@ header#masthead {
         @include clearfix;
     }
     .site-branding {
-        padding: 0 80px;
+        padding: 40px 0;
         .header-logo {
             float: left;
         }
         .header-title {
-            padding-top: 72px;
+            padding-top: 60px;
             float: right;
         }
     }
