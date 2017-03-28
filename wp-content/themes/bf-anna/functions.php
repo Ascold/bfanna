@@ -45,12 +45,11 @@ if (!function_exists('bf_anna_setup')) :
 
 
         //Add thumbnail size for carousel slides
-<<<<<<< HEAD
+
         add_image_size('slider-image', 750, 400, true);
-=======
+
         add_image_size('slider-image', 1000, 400, true);
 
->>>>>>> cbbf331d9496e3eb5996f80d4e7b07c7fbccceb8
         add_image_size('album-grid', 500, 300, true);
         add_image_size('thumb-gallery', 350, 250, true);
 
@@ -215,13 +214,12 @@ require get_template_directory() . '/inc/customizer.php';
  */
 require get_template_directory() . '/inc/jetpack.php';
 
-<<<<<<< HEAD
+
 
 /**
  * Loading google fonts
  */
-=======
->>>>>>> cbbf331d9496e3eb5996f80d4e7b07c7fbccceb8
+
 add_action('wp_print_styles', 'load_fonts');
 
 function create_posttype()

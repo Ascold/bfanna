@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 jQuery(window).load(function() {
     // The slider being synced must be initialized first
     jQuery('#carousel').flexslider({
@@ -19,11 +19,11 @@ jQuery(window).load(function() {
         sync: "#carousel"
     });
 });
-=======
+
 jQuery(document).ready(function () {
     //prevents loading page 'мероприятия'
     jQuery(document).on('click', '#primary-menu>li:nth-child(2)>a', function (event) {
         event.preventDefault();
     });
 });
->>>>>>> cbbf331d9496e3eb5996f80d4e7b07c7fbccceb8
+
