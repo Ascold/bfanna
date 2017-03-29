@@ -3,6 +3,9 @@
         margin: 20px auto 0;
         max-width: 1000px;
         text-align: center;
+        li {
+            margin: 0;
+        }
         .slider-indicators-wrap {
             @include clearfix;
             display: inline-block;
