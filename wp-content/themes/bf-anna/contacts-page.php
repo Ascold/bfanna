@@ -55,6 +55,6 @@ Template Name: Contacts Page
 
             </div>
         </main><!-- #main -->
-    </div><!-- #primary -
+    </div><!-- #primary -->
 
 <?php get_footer(); ?>
