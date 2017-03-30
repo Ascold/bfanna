@@ -462,6 +462,5 @@ function save_my_meta_fields($post_id) {
 }
 add_action('save_post', 'save_my_meta_fields'); // Запускаем функцию сохранения
 
-    <?php
     pll_register_string('read_more', 'Читать дальше...');
     ?>
