@@ -177,6 +177,7 @@ function load_fonts()
     wp_register_style('et-googleFonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i" rel="stylesheet');
     wp_enqueue_style('et-googleFonts');
 }
+
 add_action('wp_print_styles', 'load_fonts');
 
 /**
@@ -244,7 +245,6 @@ function create_posttype()
 }
 
 add_action('init', 'create_posttype');
-
 
 
 //включение комментариев для страниц по умолчанию start
@@ -354,4 +354,6 @@ $GLOBALS['comment'] = $comment; ?>
 
     ?>
 
-
+    <?php
+    pll_register_string('read_more', 'Читать дальше...');
+    ?>

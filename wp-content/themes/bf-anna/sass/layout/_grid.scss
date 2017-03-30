@@ -11,3 +11,7 @@ ul, ol {
     max-width: 1000px;
     margin: 0 auto;
 }
+
+main {
+    @include clearfix();
+}

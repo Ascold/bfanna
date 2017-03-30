@@ -15,8 +15,6 @@
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="profile" href="http://gmpg.org/xfn/11">
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhXQ-N6n7mqUXA3S4IbLm5QkKzZ7bZ3NA&callback=initMap"
-            type="text/javascript"></script>
     <?php wp_head(); ?>
 </head>
 
