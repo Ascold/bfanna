@@ -31,18 +31,19 @@ header {
     .comment-list {
         .comment {
             h3, .reply {
-                font-size: 23px;
+                font-size: 20px;
                 font-weight: 600;
-            }
-            .comment-text{
-                font-size:19px;
-                font-weight: 500;
                 font-style: italic;
             }
-            .comment-meta{
-                .fn{
-                    font-size: 23px;
-                    font-weight:800 ;
+            .comment-text {
+                font-size: 16px;
+                font-weight: 500;
+            }
+            .comment-meta {
+                .fn {
+                    font-size: 20px;
+                    font-weight: 800;
+
                 }
             }
 
@@ -51,14 +52,26 @@ header {
     }
     .comment-respond {
         h3 {
-            font-size: 34px;
-            font-weight:800 ;
+            font-size: 32px;
+            font-weight: 800;
         }
-        form{
+        form {
             label, input {
-                font-size: 23px;
+                font-size: 21px;
                 font-weight: 600;
             }
         }
     }
 }
+
+.gallery-page{
+    .album-title {
+        font-size: 19px;
+        font-weight: 400;
+    }
+    .album-date{
+        font-size: 18px;
+        font-style: italic;
+    }
+}
+

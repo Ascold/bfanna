@@ -1,0 +1,18 @@
+.gallery-page {
+    .album-block {
+        display: flex;
+        flex-flow: row wrap;
+        .album-gallery {
+            width: 50%;
+            margin: 60px 0 40px;
+            .album-title {
+                text-align: justify;
+                margin: 10px 0;
+            }
+            .album-date{
+                margin: 10px 0;
+
+            }
+        }
+    }
+}
