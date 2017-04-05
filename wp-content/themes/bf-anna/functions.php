@@ -215,7 +215,6 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/jetpack.php';
 
 
-
 /**
  * Loading google fonts
  */
@@ -235,7 +234,7 @@ function create_posttype()
             'show_in_menu' => true,
             'query_var' => true,
             'rewrite' => true,
-            'supports' => array('title', 'editor', 'thumbnail','custom-fields')
+            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields')
         )
     );
 
@@ -281,8 +280,8 @@ add_filter('get_default_comment_status', 'wph_enable_comments_pages', 10, 3);
 
 function mytheme_comment($comment, $args, $depth)
 {
-$GLOBALS['comment'] = $comment; ?>
-<li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
+    $GLOBALS['comment'] = $comment; ?>
+    <li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
     <div id="comment-<?php comment_ID(); ?>">
         <div class="comment-inner">
             <div class="title-for-comment">
@@ -306,79 +305,80 @@ $GLOBALS['comment'] = $comment; ?>
     </div>
 
     <?php
+}
+
+?>
+<?php function sort_comment_fields($fields)
+{
+    $new_fields = array();
+    $myorder = array('author', 'title', 'comment');
+
+    foreach ($myorder as $key) {
+        $new_fields[$key] = $fields[$key];
+        unset($fields[$key]);
     }
 
-    ?>
-    <?php function sort_comment_fields($fields)
-    {
-        $new_fields = array();
-        $myorder = array('author', 'title', 'comment');
+    if ($fields)
+        foreach ($fields as $key => $val)
+            $new_fields[$key] = $val;
+    return $new_fields;
+}
 
-        foreach ($myorder as $key) {
-            $new_fields[$key] = $fields[$key];
-            unset($fields[$key]);
-        }
+add_filter('comment_form_fields', 'sort_comment_fields');
 
-        if ($fields)
-            foreach ($fields as $key => $val)
-                $new_fields[$key] = $val;
-        return $new_fields;
+function remove_comment_fields($fields)
+{
+    unset($fields['email']);
+    return $fields;
+}
+
+add_filter('comment_form_default_fields', 'remove_comment_fields');
+
+function add_comment_fields($fields)
+{
+
+    $fields['title'] = '<p class="comment-form-title"><label for="title">' . __('тема відгуку') . '</label>' .
+        '<input id="title" class="title-comment"  type="text" size="40"/></p>';
+    return $fields;
+
+}
+
+add_filter('comment_form_default_fields', 'add_comment_fields');
+
+add_action('comment_post', 'add_comment_meta_values', 1);
+
+
+function add_comment_meta_values($comment_id)
+{
+
+    if (isset($_POST['title'])) {
+        $title = wp_filter_nohtml_kses($_POST['title']);
+        add_comment_meta($comment_id, 'title', $title, false);
     }
+}
 
-    add_filter('comment_form_fields', 'sort_comment_fields');
+add_action('comment_post', 'add_comment_meta_values', 1);
 
-    function remove_comment_fields($fields)
-    {
-        unset($fields['email']);
-        return $fields;
-    }
+?>
 
-    add_filter('comment_form_default_fields', 'remove_comment_fields');
-
-    function add_comment_fields($fields)
-    {
-
-        $fields['title'] = '<p class="comment-form-title"><label for="title">' . __('тема відгуку') . '</label>' .
-            '<input id="title" class="title-comment"  type="text" size="40"/></p>';
-        return $fields;
-
-    }
-
-    add_filter('comment_form_default_fields', 'add_comment_fields');
-
-    add_action('comment_post', 'add_comment_meta_values', 1);
+<?php
+add_filter('comments_array', function ($comments) {
+    return array_reverse($comments);
+});
 
 
-    function add_comment_meta_values($comment_id)
-    {
-
-        if (isset($_POST['title'])) {
-            $title = wp_filter_nohtml_kses($_POST['title']);
-            add_comment_meta($comment_id, 'title', $title, false);
-        }
-    }
-
-    add_action('comment_post', 'add_comment_meta_values', 1);
-
-    ?>
-
-    <?php
-    add_filter('comments_array', function ($comments) {
-        return array_reverse($comments);
-    });
-
-
-add_action( 'wp_enqueue_scripts', 'custom_shortcode_scripts');
-function custom_shortcode_scripts() {
+add_action('wp_enqueue_scripts', 'custom_shortcode_scripts');
+function custom_shortcode_scripts()
+{
     global $post;
-    if( has_shortcode( $post->post_content, 'gallery') ) {
-        wp_enqueue_script( 'custom-script');
+    if (has_shortcode($post->post_content, 'gallery')) {
+        wp_enqueue_script('custom-script');
     }
 }
 
 
-
-function my_meta_box() {
+function my_meta_box()
+{
     add_meta_box(
         'date-album', // Идентификатор(id)
         'date-album', // Заголовок области с мета-полями(title)
@@ -387,24 +387,26 @@ function my_meta_box() {
         'normal',
         'high');
 }
+
 add_action('add_meta_boxes', 'my_meta_box'); // Запускаем функцию
 
 $meta_fields = array(
     array(
         'label' => 'Дата',
-        'desc'  => 'Введите дату',
-        'id'    => 'date-album', // даем идентификатор.
-        'type'  => 'text'  // Указываем тип поля.
+        'desc' => 'Введите дату',
+        'id' => 'date-album', // даем идентификатор.
+        'type' => 'text'  // Указываем тип поля.
     )
 
 
 );
 // Вызов метаполей
-function show_my_metabox() {
+function show_my_metabox()
+{
     global $meta_fields; // Обозначим наш массив с полями глобальным
     global $post;  // Глобальный $post для получения id создаваемого/редактируемого поста
 // Выводим скрытый input, для верификации. Безопасность прежде всего!
-    echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce(basename(__FILE__)).'" />';
+    echo '<input type="hidden" name="custom_meta_box_nonce" value="' . wp_create_nonce(basename(__FILE__)) . '" />';
 
     // Начинаем выводить таблицу с полями через цикл
     echo '<table class="form-table">';
@@ -413,9 +415,9 @@ function show_my_metabox() {
         $meta = get_post_meta($post->ID, $field['id'], true);
         // Начинаем выводить таблицу
         echo '<tr> 
-                <th><label for="'.$field['id'].'">'.$field['label'].'</label></th> 
+                <th><label for="' . $field['id'] . '">' . $field['label'] . '</label></th> 
                 <td>';
-        switch($field['type']) {
+        switch ($field['type']) {
             case 'text':
                 echo '<input type="text" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $meta . '" size="30" />
         <br /><span class="description">' . $field['desc'] . '</span>';
@@ -432,7 +434,8 @@ function show_my_metabox() {
 
 
 // Пишем функцию для сохранения
-function save_my_meta_fields($post_id) {
+function save_my_meta_fields($post_id)
+{
     global $meta_fields;  // Массив с нашими полями
 
     // проверяем наш проверочный код
@@ -460,8 +463,169 @@ function save_my_meta_fields($post_id) {
         }
     } // end foreach
 }
+
 add_action('save_post', 'save_my_meta_fields'); // Запускаем функцию сохранения
 
-    <?php
-    pll_register_string('read_more', 'Читать дальше...');
+// Регистрируем переводы для страниц Мероприятия, Контакты, Реквизиты
+pll_register_string('events_page_title', 'Мероприятия');
+pll_register_string('read_more', 'Читать дальше...');
+
+pll_register_string('contacts_page_title', 'Контакты');
+pll_register_string('address', 'Адрес');
+pll_register_string('phone', 'Телефон');
+pll_register_string('socials', 'Социальные сети');
+
+pll_register_string('assistance_page title', 'Помощь фонду');
+pll_register_string('requisites', 'Реквизиты');
+
+
+// Подключаем функцию активации мета блока
+add_action('add_meta_boxes', 'contacts_page_metabox_create', 1);
+
+function contacts_page_metabox_create()
+{
+    if (121 == $_GET['post'] || 24 == $_GET['post']):
+        add_meta_box(
+            'contacts_page_metabox',
+            'Контактные данные',
+            'contacts_page_metabox_show',
+            'page',
+            'normal',
+            'high');
+    endif;
+}
+
+// Добавляем необходимые поля
+function contacts_page_metabox_show($post)
+{
     ?>
+    <div class="my-admin-page-styles">
+        <p class="user-tutorial">
+            Все данные, кроме адреса, являются общими для страниц на русском и украинском языках. Поля можно заполнить
+            на
+            любой из этих страниц. Адрес, в силу того, что язык имеет значение, заполняется для каждой страницы
+            отдельно.
+            Изменения вступают в силу после нажатия кнопки "Update" в правой верхней части экрана. Чтобы удалить
+            какое-либо
+            значение, достаточно очистить соответствующее поле и сохранить изменения.
+        </p>
+        <p>
+            <label for="contacts[address]">Адрес:</label>
+            <textarea name="contacts[address]" id="contacts[address]"
+                      placeholder="Адрес организации"><?php echo get_post_meta($post->ID, 'address', true); ?></textarea>
+        </p>
+        <div>
+        <fieldset>
+            <legend>Телефоны:</legend>
+            <label for="contacts[tel_1]">тел. #1: </label>
+            <input type="text" name="contacts[tel_1]" id="contacts[tel_1]"
+                   value="<?php echo get_post_meta('121', 'tel_1', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
+            <label for="contacts[tel_2]">тел. #2: </label>
+            <input type="text" name="contacts[tel_2]" id="contacts[tel_2]"
+                   value="<?php echo get_post_meta('121', 'tel_2', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
+            <label for="contacts[tel_3]">тел. #2: </label>
+            <input type="text" name="contacts[tel_3]" id="contacts[tel_3]"
+                   value="<?php echo get_post_meta('121', 'tel_3', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
+        </fieldset>
+        </div>
+        <div>
+        <fieldset>
+            <legend>Социальные сети:</legend>
+            <label for="contacts[socials_vk]">VK: </label>
+            <input type="text" name="contacts[socials_vk]" id="contacts[socials_vk]"
+                   value="<?php echo get_post_meta('121', 'socials_vk', true); ?>"><br>
+            <label for="contacts[socials_fb]">Facebook: </label>
+            <input type="text" name="contacts[socials_fb]" id="contacts[socials_fb]"
+                   value="<?php echo get_post_meta('121', 'socials_fb', true); ?>">
+        </fieldset>
+        </div>
+        <p>
+            <label for="contacts[email]">Email: </label>
+            <input type="text" name="contacts[email]" id="contacts[email]"
+                   value="<?php echo get_post_meta('121', 'email', true); ?>" placeholder="Email">
+        </p>
+        <p>
+            <label for="contacts[map]">Код для карты Google Map: </label>
+        </p>
+        <p class="user-tutorial">
+            Для получения кода карты откройте карты Google Maps, в поле поискового запроса введите адрес
+            вашей организации, среди появившихся результатов поиска выберите нужный. Нажмите кнопку поделиться и в
+            появившемся диалоговом окне выберите вкладку "Код". После этого скопируйте значение в поле над картой и
+            вставьте его в поле под этим текстом.
+        </p>
+        <input type="text" name="contacts[map]" id="contacts[map]"
+               value="<?php echo esc_html(get_post_meta('121', 'map', true)); ?>"
+               placeholder="Код карты">
+
+
+        <input type="hidden" name="extra_fields_nonce" value="<?php echo wp_create_nonce(__FILE__); ?>"/>
+    </div>
+
+    <?php
+}
+
+// включаем обновление полей при сохранении
+add_action('save_post', 'contacts_page_metabox_update');
+
+/* Сохраняем данные, при сохранении поста */
+function contacts_page_metabox_update($post_id)
+{
+    //if ( ! wp_verify_nonce($_POST['extra_fields_nonce'], __FILE__) ) return false; // проверка
+    //if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE  ) return false; // выходим если это автосохранение
+    // if ( !current_user_can('edit_page', $post_id) ) return false; // выходим если юзер не имеет право редактировать запись
+
+    if (!isset($_POST['contacts'])) {
+        var_dump($_POST);
+        return false;
+    } // выходим если данных нет
+
+    // Все ОК! Теперь, нужно сохранить/удалить данные
+    $_POST['contacts'] = array_map('trim', $_POST['contacts']); // чистим все данные от пробелов по краям
+    foreach ($_POST['contacts'] as $key => $value) {
+        if (empty($value)) {
+            delete_post_meta($key != 'address' ? '121' : $post_id, $key); // удаляем поле если значение пустое
+            continue;
+        }
+
+        update_post_meta($key != 'address' ? '121' : $post_id, $key, $value); // add_post_meta() работает автоматически
+    }
+    return $post_id;
+}
+
+// Стилим админку
+add_action('admin_enqueue_scripts', 'metabox_styling');
+
+function metabox_styling()
+{
+    ?>
+    <style>
+        .my-admin-page-styles label {
+            display: inline-block;
+            vertical-align: top;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 4px;
+        }
+
+        .my-admin-page-styles legend {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .my-admin-page-styles p,
+        .my-admin-page-styles div {
+            padding: 10px;
+        }
+
+        .my-admin-page-styles .user-tutorial {
+            font-style: italic;
+            color: #a05b2f;
+        }
+
+        .my-admin-page-styles input[name='contacts[map]'] {
+            width: 100%;
+        }
+    </style>
+    <?php
+}
