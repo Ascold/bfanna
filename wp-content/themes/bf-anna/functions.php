@@ -43,21 +43,16 @@ if (!function_exists('bf_anna_setup')) :
          */
         add_theme_support('post-thumbnails');
 
-
-        //Add thumbnail size for carousel slides
-
-        add_image_size('slider-image', 750, 400, true);
-
-        add_image_size('slider-image', 1000, 400, true);
-
+        //Add image sizes
+        add_image_size('front-page-slider-image', 1400, 460, true);
         add_image_size('album-grid', 500, 300, true);
         add_image_size('thumb-gallery', 350, 250, true);
-
 
         // This theme uses wp_nav_menu() in one location.
         register_nav_menus(array(
             'menu-1' => esc_html__('Primary', 'bf-anna'),
             'menu-2' => esc_html__('Menu for lang switcher'),
+            'menu-3' => esc_html__('Menu in footer'),
         ));
 
         /*
@@ -165,7 +160,6 @@ function bf_anna_scripts()
     //Register main.js file
     wp_enqueue_script('main-js-file', get_template_directory_uri() . '/js/main.js');
 
-
     //Register main.css file
     $theme_uri = get_template_directory_uri();
     wp_register_style('bfanna-theme-style', $theme_uri . '/css/main.css', false, '0.1');
@@ -213,14 +207,6 @@ require get_template_directory() . '/inc/customizer.php';
  * Load Jetpack compatibility file.
  */
 require get_template_directory() . '/inc/jetpack.php';
-
-
-
-/**
- * Loading google fonts
- */
-
-add_action('wp_print_styles', 'load_fonts');
 
 function create_posttype()
 {

@@ -1,48 +1,72 @@
 header#masthead {
+    padding: 20px 0 30px;
+    border-bottom: 3px solid grey;
     .container-inner {
         @include clearfix;
     }
     .site-branding {
-        padding: 40px 0;
-        .header-logo {
-            float: left;
-        }
-        .header-title {
-            padding-top: 60px;
-            float: right;
+        float: left;
+        a {
+            display: block;
         }
     }
     .main-navigation {
+        float: right;
+        width: auto;
+        clear: none;
+        padding-top: 48px;
         .main-nav-menu {
             float: left;
+            ul.menu {
+                @include clearfix;
+                & > li {
+                    margin-right: 13px;
+                }
+                .menu-item {
+                    border-radius: 5px;
+                    border-bottom: 5px solid transparent;
+                }
+                .current-menu-item {
+                    border-bottom: 5px solid #dda0dd;
+                    border-radius: 5px;
+                }
+                .menu-item-has-children {
+                    position: relative;
+                }
+                .sub-menu {
+                    @include clearfix;
+                    padding: 5px;
+                    border-radius: 5px;
+                    box-shadow: none;
+                    top: 53px;
+                    box-sizing: border-box;
+                    li {
+                        position: relative;
+                        border-bottom: none;
+                        a {
+                            text-transform: none !important;
+                        }
+                    }
+                    li:not(:last-child) {
+                        margin-bottom: 5px;
+                    }
+                    &:before {
+                        display: block;
+                        height: 16px;
+                        margin-top: -16px;
+                    }
+                }
+            }
+            a {
+                padding: 10px 15px;
+                text-transform: uppercase;
+                text-decoration: none;
+            }
         }
         .lang-menu {
             float: right;
             li {
                 padding: 10px 10px;
-                text-decoration: none;
-            }
-        }
-        ul.nav-menu {
-            @include clearfix;
-            li {
-                a {
-                    padding: 10px 15px;
-                    text-decoration: none;
-                }
-                &:not(:last-child) {
-                    margin-right: 10px;
-                }
-            }
-            .sub-menu {
-                top: 0;
-                margin-top: 40px;
-                li {
-                    margin: 0;
-                    a {
-                        width: 315px;
-                    }
-                }
             }
         }
     }

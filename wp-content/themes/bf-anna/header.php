@@ -8,7 +8,6 @@
  *
  * @package BF_Anna
  */
-
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -17,29 +16,27 @@
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <?php wp_head(); ?>
 </head>
-
 <body <?php body_class(); ?>>
 <div id="page" class="site">
     <header id="masthead" class="site-header" role="banner">
-
-        <div class="site-branding">
-            <div class="container-inner">
-                <div class="header-logo">
-                    <?php echo get_header_image_tag() ?>
-                </div>
-                <div class="header-title">
-                    <h1><?php bloginfo('name'); ?></h1>
-                </div>
+        <div class="container-inner">
+            <div class="container-fluid">
+                <div class="site-branding">
+                    <a href="/">
+                        <?php echo get_header_image_tag(array(
+                            'width' => 200,
+                            'height' => 95,
+                            'alt' => 'Site Logo',
+                        )) ?>
+                    </a>
+                </div><!-- .site-branding -->
+                <nav id="site-navigation" class="main-navigation" role="navigation">
+                    <button class="menu-toggle" aria-controls="primary-menu"
+                            aria-expanded="false"><?php esc_html_e('Primary Menu', 'bf-anna'); ?></button>
+                    <?php wp_nav_menu(array('theme_location' => 'menu-1', 'menu_id' => 'primary-menu', 'container_class' => 'main-nav-menu')); ?>
+                    <?php wp_nav_menu(array('theme_location' => 'menu-2', 'container_class' => 'lang-menu')); ?>
+                </nav><!-- #site-navigation -->
             </div>
-        </div><!-- .site-branding -->
-        <nav id="site-navigation" class="main-navigation" role="navigation">
-            <div class="container-inner">
-                <button class="menu-toggle" aria-controls="primary-menu"
-                        aria-expanded="false"><?php esc_html_e('Primary Menu', 'bf-anna'); ?></button>
-                <?php wp_nav_menu(array('theme_location' => 'menu-1', 'menu_id' => 'primary-menu', 'container_class' => 'main-nav-menu')); ?>
-                <?php wp_nav_menu(array('theme_location' => 'menu-2', 'container_class' => 'lang-menu')); ?>
-            </div>
-        </nav><!-- #site-navigation -->
-</header><!-- #masthead -->
-
-<div id="content" class="site-content">
+        </div>
+    </header><!-- #masthead -->
+    <div id="content" class="site-content">
