@@ -20,7 +20,7 @@ jQuery(window).load(function() {
 });
 
 jQuery(document).ready(function () {
-    //prevents loading page 'мероприятия'
+    //prevents loading page 'Проекти'
     jQuery(document).on('click', '#primary-menu>li:nth-child(2)>a', function (event) {
         event.preventDefault();
     });
