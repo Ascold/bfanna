@@ -3,17 +3,19 @@
     margin: 0 auto;
     padding-bottom: 100px;
     .comment-list {
-        padding: 60px 0;
+        padding: 35px 0;
 
         .comment {
+            margin-top: 10px;
             .comment-inner {
-                background: #f8f8f8;
+                background: #ffffff;
                 margin-right: 140px;
                 border-radius: 5px;
+                border: 1px solid #f8f8f8;
                 .title-for-comment {
                     padding: 25px 30px 0 20px;
                     h3 {
-                        padding-bottom: 20px;
+                        //padding-bottom: 20px;
                     }
                 }
                 .comment-text {
@@ -35,14 +37,19 @@
                         @include clearfix;
                         float: right;
                         a {
-                            color: inherit;
-                            padding: 0 10px 5px;
+                            padding: 5px 15px;
+                            color: #666;
+                            -moz-transition: all 0.5s ease-out;
+                            -o-transition: all 0.5s ease-out;
+                            -webkit-transition: all 0.5s ease-out;
+                            border-radius: 10px;
+                            border-bottom: 5px solid rgba(222, 178, 214, 0);
+                            transition-property: font-weight; transition-duration: 0.5s; transition-timing-function: linear; transition-delay: 0.5s;
 
                             &:hover {
-                                color: inherit;
                                 text-decoration: none;
-                                border-bottom: 3px solid grey;
-                                border-radius: 10px;
+                                border-bottom: 5px solid rgba(222, 178, 214, 1);
+                                border-radius: 7px;
 
                             }
 
@@ -67,15 +74,40 @@
 
         }
 
+
+    }
+    .comment-navigation{
+        .nav-link-more, .nav-link-back{
+            //text-align: center;
+
+            a{
+                text-decoration: none;
+                color: inherit;
+                padding: 5px 10px;
+                border-radius: 10px;
+                border-bottom: 5px solid rgba(222, 178, 214, 0);
+                &:hover{
+                    text-decoration: none;
+                    color: inherit;
+                    border-bottom: 5px solid rgba(222, 178, 214, 1);
+                    border-radius: 7px;
+                }
+            }
+        }
     }
     .comment-respond {
         text-align: center;
+        padding-top: 45px;
         .comment-reply-title {
             margin-bottom: 25px;
         }
     }
     form {
-        box-shadow: 0 0 70px #d4e2e5;
+        background-color: #ffffff;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, .3),
+        -23px 0 20px -23px #d4e2e5,
+        23px 0 20px -23px #d4e2e5,
+        0 0 40px rgba(0, 0, 0, .1) inset;
         padding: 16px 0;
         text-align: center;
         max-width: 800px;
@@ -88,12 +120,21 @@
             }
             input {
                 border-radius: 12px;
-                padding: 10px 18px;
+                padding: 5px 18px;
             }
             .submit {
+                background-color: rgba(237, 220, 234, 1);
+                color: #666;
+                -moz-transition: all 0.5s ease-out;
+                -o-transition: all 0.5s ease-out;
+                -webkit-transition: all 0.5s ease-out;
+
                 &:hover {
                     color: whitesmoke;
-                    background-color: grey;
+                    background-color: rgba(222, 178, 214, 1);
+                    -webkit-transform: scale(1.1);
+                    -moz-transform: scale(1.1);
+                    -o-transform: scale(1.1);
                 }
             }
         }
@@ -106,6 +147,12 @@
             label {
                 margin-right: 120px;
             }
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            transition: opacity 0.3s ease;
+
         }
     }
 }

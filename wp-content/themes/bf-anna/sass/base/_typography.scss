@@ -10,10 +10,10 @@ header {
         }
     }
     .main-navigation {
-        background: lightgray;
-        li {
+          li {
             a {
-                font-size: 14px
+                font-size: 17px;
+                font-weight: 600;
             }
         }
     }
@@ -31,9 +31,17 @@ header {
     .comment-list {
         .comment {
             h3, .reply {
-                font-size: 20px;
+                font-size: 17px;
                 font-weight: 600;
                 font-style: italic;
+            }
+            .reply{
+                font-size: 17px;
+                font-weight: 700;
+                font-style: italic;
+                a{
+                    font-weight: 500;
+                }
             }
             .comment-text {
                 font-size: 16px;
@@ -43,16 +51,20 @@ header {
                 .fn {
                     font-size: 19px;
                     font-weight: 800;
-
                 }
             }
-
         }
 
     }
+    .comment-navigation{
+        .nav-link-more, .nav-link-back{
+            font-weight: 400;
+            font-size: 18px;
+        }
+    }
     .comment-respond {
         h3 {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: 800;
         }
         form {
@@ -64,14 +76,29 @@ header {
     }
 }
 
-.gallery-page{
+.gallery-page {
     .album-title {
         font-size: 19px;
-        font-weight: 400;
+        font-weight: 600;
     }
-    .album-date{
+    .album-date {
         font-size: 18px;
         font-style: italic;
+        font-weight: 300;
+    }
+}
+
+.project-page{
+    h1{
+        font-size: 38px;
+        font-weight: 400;
+        font-style: italic;
+    }
+    .entry-content{
+        p,li{
+            font-size: 18px;
+        }
+
     }
 }
 

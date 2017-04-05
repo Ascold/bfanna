@@ -228,7 +228,8 @@ function create_posttype()
         array(
             'labels' => array(
                 'name' => __('photo_gallery_img'),
-                'singular_name' => __('gallery_img')
+                'singular_name' => __('gallery_img'),
+                'menu_name' => __('Галлерея')
             ),
             'public' => true,
             'show_ui' => true,
@@ -363,9 +364,9 @@ $GLOBALS['comment'] = $comment; ?>
     ?>
 
     <?php
-    add_filter('comments_array', function ($comments) {
-        return array_reverse($comments);
-    });
+//    add_filter('comments_array', function ($comments) {
+//        return array_reverse($comments);
+//    });
 
 
 add_action( 'wp_enqueue_scripts', 'custom_shortcode_scripts');
@@ -461,5 +462,7 @@ function save_my_meta_fields($post_id) {
     } // end foreach
 }
 add_action('save_post', 'save_my_meta_fields'); // Запускаем функцию сохранения
+
+
 
 
