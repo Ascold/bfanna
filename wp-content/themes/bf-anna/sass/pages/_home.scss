@@ -1,49 +1,31 @@
 .front-page {
+    main.site-main {
+        padding-bottom: 30px;
+    }
     .main-carousel {
-        margin: 20px auto 0;
-        max-width: 1000px;
-        text-align: center;
-        .slider-indicators-wrap {
-            @include clearfix;
-            display: inline-block;
-            margin-top: 15px;
-        }
-        .carousel-indicators {
-            @include clearfix;
-            position: static;
-            margin: 0 auto;
-            float: left;
-            display: inline-block;
-            width: auto;
-            li {
-                text-indent: 0;
-                border-radius: 0;
+        margin: 0 auto;
+        .carousel-inner {
+            & > li {
                 margin: 0;
-                display: block;
-                float: left;
-                padding: 4px 5px;
-                width: 20px;
-                height: 30px;
-                &:not(:last-child) {
-                    border-right: none;
+                img {
+                    width: 100%;
                 }
             }
         }
-        .carousel-control {
-            position: static;
-            float: left;
-            width: 20px;
-            height: 30px;
-            padding: 0 3px;
-            border: 1px solid #333;
-            opacity: 1;
-            &.left {
-                border-right: none;
-                border-radius: 5px 0 0 5px;
-            }
-            &.right {
-                border-left: none;
-                border-radius: 0 5px 5px 0;
+    }
+    article {
+        margin: 0 auto;
+        text-align: justify;
+        img {
+            margin: 0 25px 10px 25px;
+            -moz-transition: all 1s ease-out;
+            -o-transition: all 1s ease-out;
+            -webkit-transition: all 1s ease-out;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .3), -23px 0 20px -23px #d4e2e5, 23px 0 20px -23px #d4e2e5, 0 0 40px rgba(0, 0, 0, .1) inset;
+            &:hover {
+                -webkit-transform: scale(1.1);
+                -moz-transform: scale(1.1);
+                -o-transform: scale(1.1);
             }
         }
     }

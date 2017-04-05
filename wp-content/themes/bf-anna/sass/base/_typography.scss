@@ -10,19 +10,14 @@ header {
         }
     }
     .main-navigation {
-          li {
+        li {
             a {
                 font-size: 17px;
                 font-weight: 600;
             }
         }
-    }
-}
-
-.front-page {
-    .main-carousel {
-        .carousel-indicators {
-            //font-size: 14px;
+        .nav-menu > li > a {
+            font-weight: 600;
         }
     }
 }

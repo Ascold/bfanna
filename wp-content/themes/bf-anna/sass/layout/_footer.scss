@@ -1,9 +1,36 @@
 footer#colophon {
+    padding: 20px 0;
+    border-top: 1px solid grey;
     .container-inner {
         padding: 10px 0;
-        @include clearfix;
-        &>div {
-            float: left;
+        .footer-block {
+            display: flex;
+            flex-flow: row wrap;
+            width: 100%;
+            .footer-block-inner {
+                width: 50%;
+                &:first-child {
+                    @include clearfix;
+                    & > div {
+                        float: left;
+                    }
+                }
+                &:last-child {
+                    .footer-menu {
+                        @include clearfix;
+                        ul {
+                            @include clearfix;
+                            float: right;
+                            li {
+                                float: left;
+                                a {
+                                    padding: 10px 15px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
