@@ -1,9 +1,13 @@
 .events-single-post {
     padding: 0 15px;
 
+    .single-post-wrapper {
+        padding-bottom: 40px;
+    }
+
     h2 {
         margin-top: 30px;
-        margin-bottom: 15px;
+        margin-bottom: 25px;
         text-align: center;
     }
 
@@ -19,8 +23,25 @@
         margin-top: 20px;
     }
 
+    p {
+        text-align: justify;
+    }
+
     .post-date {
         text-align: right;
         margin-top: 20px;
+
+        a {
+            transition: font-weight 500ms;
+        }
+
+        a:hover {
+            font-weight: bold;
+            text-decoration: none;
+        }
+    }
+
+    a, a:visited, a:link {
+        color: rgb(102, 102, 102);
     }
 }

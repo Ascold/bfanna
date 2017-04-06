@@ -208,6 +208,7 @@ require get_template_directory() . '/inc/customizer.php';
  */
 require get_template_directory() . '/inc/jetpack.php';
 
+
 function create_posttype()
 {
     register_post_type('photo_gallery_img',
@@ -323,7 +324,6 @@ function remove_comment_fields($fields)
 
 add_filter('comment_form_default_fields', 'remove_comment_fields');
 
-
 function add_comment_fields($fields)
 {
 
@@ -334,6 +334,8 @@ function add_comment_fields($fields)
 
 add_filter('comment_form_default_fields', 'add_comment_fields');
 
+add_action('comment_post', 'add_comment_meta_values', 1);
+
 
 function add_comment_meta_values($comment_id) {
 
@@ -342,6 +344,7 @@ function add_comment_meta_values($comment_id) {
         add_comment_meta($comment_id, 'title', $title, false);
     }
 }
+
 add_action ('comment_post', 'add_comment_meta_values', 1);
 
 
@@ -379,6 +382,7 @@ function my_comments_callback( $comment, $args, $depth ) {
 
 
 <?php
+
 function my_meta_box()
 {
     add_meta_box(
@@ -436,20 +440,22 @@ function show_my_metabox()
 
 
 // Пишем функцию для сохранения
-function save_my_meta_fields($post_id)
-{
+function save_my_meta_fields($post_id) {
     global $meta_fields;  // Массив с нашими полями
 
     // проверяем наш проверочный код
-    if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__)))
+    if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__))) {
         return $post_id;
+    }
     // Проверяем авто-сохранение
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
         return $post_id;
+    }
     // Проверяем права доступа
     if ('page' == $_POST['post_type']) {
-        if (!current_user_can('edit_page', $post_id))
+        if (!current_user_can('edit_page', $post_id)) {
             return $post_id;
+        }
     } elseif (!current_user_can('edit_post', $post_id)) {
         return $post_id;
     }
@@ -468,7 +474,11 @@ function save_my_meta_fields($post_id)
 
 add_action('save_post', 'save_my_meta_fields'); // Запускаем функцию сохранения
 
+
+// Регистрируем переводы для страниц Мероприятия, Контакты, Реквизиты
+pll_register_string('events_page_title', 'Мероприятия');
 pll_register_string('read_more', 'Читать дальше...');
+
 pll_register_string('title_reply', 'Ваш відгук дуже важливий для нас');
 pll_register_string('label_submit', 'Відправити');
 pll_register_string('more', 'Більше відгуків');
@@ -476,3 +486,161 @@ pll_register_string('submit', 'До початку');
 pll_register_string('placeholder', 'Your name');
 
 
+pll_register_string('contacts_page_title', 'Контакты');
+pll_register_string('address', 'Адрес');
+pll_register_string('phone', 'Телефон');
+pll_register_string('socials', 'Социальные сети');
+
+pll_register_string('assistance_page title', 'Помощь фонду');
+pll_register_string('requisites', 'Реквизиты');
+
+
+// Подключаем функцию активации мета блока
+add_action('add_meta_boxes', 'contacts_page_metabox_create', 1);
+
+function contacts_page_metabox_create()
+{
+    if (121 == $_GET['post'] || 24 == $_GET['post']):
+        add_meta_box(
+            'contacts_page_metabox',
+            'Контактные данные',
+            'contacts_page_metabox_show',
+            'page',
+            'normal',
+            'high');
+    endif;
+}
+
+// Добавляем необходимые поля
+function contacts_page_metabox_show($post)
+{
+    ?>
+    <div class="my-admin-page-styles">
+        <p class="user-tutorial">
+            Все данные, кроме адреса, являются общими для страниц на русском и украинском языках. Поля можно заполнить
+            на
+            любой из этих страниц. Адрес, в силу того, что язык имеет значение, заполняется для каждой страницы
+            отдельно.
+            Изменения вступают в силу после нажатия кнопки "Update" в правой верхней части экрана. Чтобы удалить
+            какое-либо
+            значение, достаточно очистить соответствующее поле и сохранить изменения.
+        </p>
+        <p>
+            <label for="contacts[address]">Адрес:</label>
+            <textarea name="contacts[address]" id="contacts[address]"
+                      placeholder="Адрес организации"><?php echo get_post_meta($post->ID, 'address', true); ?></textarea>
+        </p>
+        <div>
+        <fieldset>
+            <legend>Телефоны:</legend>
+            <label for="contacts[tel_1]">тел. #1: </label>
+            <input type="text" name="contacts[tel_1]" id="contacts[tel_1]"
+                   value="<?php echo get_post_meta('121', 'tel_1', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
+            <label for="contacts[tel_2]">тел. #2: </label>
+            <input type="text" name="contacts[tel_2]" id="contacts[tel_2]"
+                   value="<?php echo get_post_meta('121', 'tel_2', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
+            <label for="contacts[tel_3]">тел. #2: </label>
+            <input type="text" name="contacts[tel_3]" id="contacts[tel_3]"
+                   value="<?php echo get_post_meta('121', 'tel_3', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
+        </fieldset>
+        </div>
+        <div>
+        <fieldset>
+            <legend>Социальные сети:</legend>
+            <label for="contacts[socials_vk]">VK: </label>
+            <input type="text" name="contacts[socials_vk]" id="contacts[socials_vk]"
+                   value="<?php echo get_post_meta('121', 'socials_vk', true); ?>"><br>
+            <label for="contacts[socials_fb]">Facebook: </label>
+            <input type="text" name="contacts[socials_fb]" id="contacts[socials_fb]"
+                   value="<?php echo get_post_meta('121', 'socials_fb', true); ?>">
+        </fieldset>
+        </div>
+        <p>
+            <label for="contacts[email]">Email: </label>
+            <input type="text" name="contacts[email]" id="contacts[email]"
+                   value="<?php echo get_post_meta('121', 'email', true); ?>" placeholder="Email">
+        </p>
+        <p>
+            <label for="contacts[map]">Код для карты Google Map: </label>
+        </p>
+        <p class="user-tutorial">
+            Для получения кода карты откройте карты Google Maps, в поле поискового запроса введите адрес
+            вашей организации, среди появившихся результатов поиска выберите нужный. Нажмите кнопку поделиться и в
+            появившемся диалоговом окне выберите вкладку "Код". После этого скопируйте значение в поле над картой и
+            вставьте его в поле под этим текстом.
+        </p>
+        <input type="text" name="contacts[map]" id="contacts[map]"
+               value="<?php echo esc_html(get_post_meta('121', 'map', true)); ?>"
+               placeholder="Код карты">
+
+
+        <input type="hidden" name="extra_fields_nonce" value="<?php echo wp_create_nonce(__FILE__); ?>"/>
+    </div>
+
+    <?php
+}
+
+// включаем обновление полей при сохранении
+add_action('save_post', 'contacts_page_metabox_update');
+
+/* Сохраняем данные, при сохранении поста */
+function contacts_page_metabox_update($post_id)
+{
+    //if ( ! wp_verify_nonce($_POST['extra_fields_nonce'], __FILE__) ) return false; // проверка
+    //if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE  ) return false; // выходим если это автосохранение
+    // if ( !current_user_can('edit_page', $post_id) ) return false; // выходим если юзер не имеет право редактировать запись
+
+    if (!isset($_POST['contacts'])) {
+        return false;
+    } // выходим если данных нет
+
+    // Все ОК! Теперь, нужно сохранить/удалить данные
+    $_POST['contacts'] = array_map('trim', $_POST['contacts']); // чистим все данные от пробелов по краям
+    foreach ($_POST['contacts'] as $key => $value) {
+        if (empty($value)) {
+            delete_post_meta($key != 'address' ? '121' : $post_id, $key); // удаляем поле если значение пустое
+            continue;
+        }
+
+        update_post_meta($key != 'address' ? '121' : $post_id, $key, $value); // add_post_meta() работает автоматически
+    }
+    return $post_id;
+}
+
+// Стилим админку
+add_action('admin_enqueue_scripts', 'metabox_styling');
+
+function metabox_styling()
+{
+    ?>
+    <style>
+        .my-admin-page-styles label {
+            display: inline-block;
+            vertical-align: top;
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 4px;
+        }
+
+        .my-admin-page-styles legend {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .my-admin-page-styles p,
+        .my-admin-page-styles div {
+            padding: 10px;
+        }
+
+        .my-admin-page-styles .user-tutorial {
+            font-style: italic;
+            color: #a05b2f;
+        }
+
+        .my-admin-page-styles input[name='contacts[map]'] {
+            width: 100%;
+        }
+    </style>
+    <?php
+}

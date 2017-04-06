@@ -9,10 +9,43 @@
     .contacts-text, .contacts-map {
         box-sizing: border-box;
         width: 100%;
+        margin-bottom: 20px;
+    }
+
+    a.contacts-item-text {
+        display: block;
+        text-decoration: none;
+    }
+
+    a.socials {
+        display: inline-block;
+        font-size: 40px;
+        padding: 5px 10px;
+    }
+
+    h3.socials {
+        margin-bottom: 10px;
+    }
+
+    a:link, a:visited {
+        color: #507299;
+    }
+
+    a:hover {
+        color: darkgray;
     }
 
     .contacts-map {
         text-align: center;
+
+        iframe {
+            //box-shadow: 0 0 20px 3px gray;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .3),
+            -23px 0 20px -23px #d4e2e5,
+            23px 0 20px -23px #d4e2e5,
+            0 0 40px rgba(0, 0, 0, .1) inset;
+        }
+
     }
 
     iframe {
