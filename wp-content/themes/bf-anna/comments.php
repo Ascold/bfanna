@@ -18,7 +18,6 @@ if (post_password_required()) {
             <ol class="comment-list">
                 <?php wp_list_comments(array('callback' => 'my_comments_callback')); ?>
             </ol><!-- .comment-list -->
-
             <?php if (get_comment_pages_count() > 1 && get_option('page_comments')) : // Are there comments to navigate through? ?>
                 <nav id="comment-nav-below" class="navigation comment-navigation" role="navigation">
                     <h2 class="screen-reader-text"><?php esc_html_e('Comment navigation', 'bf-anna'); ?></h2>
