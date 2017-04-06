@@ -267,37 +267,7 @@ add_filter('get_default_comment_status', 'wph_enable_comments_pages', 10, 3);
 //включение комментариев для страниц по умолчанию end
 
 
-//function mytheme_comment($comment, $args, $depth)
-//{
-//    $GLOBALS['comment'] = $comment; ?>
-<!--        <li --><?php //comment_class(); ?><!-- id="li-comment---><?php //comment_ID() ?><!--">-->
-    <!--    <div id="comment---><?php //comment_ID(); ?><!--">-->
-    <!--        <div class="comment-inner">-->
-    <!--            <div class="title-for-comment">-->
-    <!--                <h3>-->
-    <!--                    --><?php //echo get_comment_meta($comment->comment_ID, 'my_metadata_key', true); ?>
-    <!--                </h3>-->
-    <!---->
-    <!--            </div>-->
-    <!--            <div class="comment-text">-->
-    <!--                --><?php //comment_text() ?>
-    <!--            </div>-->
-    <!--            <div class="comment-footer">-->
-    <!--                <div class="comment-meta commentmetadata">-->
-    <!--                    <div class="fn">--><?php //echo get_comment_author_link() ?><!-- </div>-->
-    <!--                    <div class="com-date">--><?php //echo get_comment_date('d/m/Y') ?><!--</div>-->
-    <!--                </div>-->
-    <!--                <div class="reply">-->
-    <!--                    --><?php //comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!---->
-    <!--    --><?php
-//}
-//
-//?>
+?>
 <?php function sort_comment_fields($fields)
 {
     $new_fields = array();
