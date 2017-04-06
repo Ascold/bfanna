@@ -566,7 +566,6 @@ function contacts_page_metabox_update($post_id)
     // if ( !current_user_can('edit_page', $post_id) ) return false; // выходим если юзер не имеет право редактировать запись
 
     if (!isset($_POST['contacts'])) {
-        var_dump($_POST);
         return false;
     } // выходим если данных нет
 

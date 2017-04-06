@@ -14,12 +14,21 @@
 
     .post-date {
         float: right;
+
+        a {
+            transition: font-weight 500ms;
+        }
+
+        a:hover {
+            font-weight: bold;
+        }
     }
 
     .event-post-item {
         border-radius: 5px;
         border: 1px solid rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
+        box-shadow: 0 0 32px -6px gray;
     }
 
     .event-post-thumbnail, .event-post-text {
@@ -45,8 +54,6 @@
         }
     }
 
-
-
     .event-post-excerpt {
         text-indent: 20px;
         margin-top: 10px;
@@ -57,11 +64,9 @@
 
         h3 {
             display: inline-block;
-            border-bottom: 2px dotted transparent;
         }
 
     }
-
 
     // Responsive
     @media (min-width: 700px) {
@@ -80,16 +85,23 @@
 
     // links
     a, a:visited, a:link {
-        color: inherit;
+        color: rgb(102, 102, 102);
+
+        h3 {
+            position: relative;
+        }
     }
 
     a:hover {
         text-decoration: none;
     }
 
-    a:hover h3 {
-        border-bottom: 2px dotted rgba(0, 0, 0, 0.8);
+    a h3 {
+        transition: color 500ms;
+    }
 
+    a:hover h3 {
+        color: black;
     }
 
     // Read more button...
@@ -101,6 +113,8 @@
             padding: 10px 14px;
             border-radius: 3px;
             border: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            transition: border-color 500ms;
 
             &:hover {
                 border-color: rgba(0, 0, 0, 0.3);
