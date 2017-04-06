@@ -30,11 +30,13 @@
                         )) ?>
                     </a>
                 </div><!-- .site-branding -->
+                <nav class="lang-navigation">
+                    <?php wp_nav_menu(array('theme_location' => 'menu-2', 'container_class' => 'lang-menu')); ?>
+                </nav>
                 <nav id="site-navigation" class="main-navigation" role="navigation">
                     <button class="menu-toggle" aria-controls="primary-menu"
-                            aria-expanded="false"><?php esc_html_e('Primary Menu', 'bf-anna'); ?></button>
+                            aria-expanded="false"><i class="fa fa-bars fa-2x" aria-hidden="true"></i></button>
                     <?php wp_nav_menu(array('theme_location' => 'menu-1', 'menu_id' => 'primary-menu', 'container_class' => 'main-nav-menu')); ?>
-                    <?php wp_nav_menu(array('theme_location' => 'menu-2', 'container_class' => 'lang-menu')); ?>
                 </nav><!-- #site-navigation -->
             </div>
         </div>

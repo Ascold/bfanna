@@ -1,5 +1,5 @@
 footer#colophon {
-    padding: 20px 0;
+    padding: 15px 0;
     border-top: 1px solid grey;
     .container-inner {
         padding: 10px 0;
@@ -11,8 +11,12 @@ footer#colophon {
                 width: 50%;
                 &:first-child {
                     @include clearfix;
-                    & > div {
-                        float: left;
+                    padding-top: 10px;
+                    .copyright-wrap {
+                        @include clearfix;
+                        div {
+                            float: left;
+                        }
                     }
                 }
                 &:last-child {
@@ -24,6 +28,8 @@ footer#colophon {
                             li {
                                 float: left;
                                 a {
+                                    display: block;
+                                    box-sizing: border-box;
                                     padding: 10px 15px;
                                 }
                             }

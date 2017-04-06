@@ -347,9 +347,7 @@ $GLOBALS['comment'] = $comment; ?>
 
     add_action('comment_post', 'add_comment_meta_values', 1);
 
-    ?>
 
-    <?php
 //    add_filter('comments_array', function ($comments) {
 //        return array_reverse($comments);
 //    });
