@@ -473,4 +473,6 @@ pll_register_string('title_reply', 'Ваш відгук дуже важливи�
 pll_register_string('label_submit', 'Відправити');
 pll_register_string('more', 'Більше відгуків');
 pll_register_string('submit', 'До початку');
+pll_register_string('placeholder', 'Your name');
+
 

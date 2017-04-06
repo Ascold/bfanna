@@ -42,11 +42,11 @@ if (post_password_required()) {
         $req = get_option('require_name_email');
         $aria_req = ($req ? " aria-required='true'" : '');
         $fields = array(
-            'title' => '<p class="comment-form-title"><label for="age">' . __('Title') . '</label>' .
+            'title' => '<p class="comment-form-title"><label for="age">' . __('Тема') . '</label>' .
                 '<input id="title" name="title" type="text" size="30" /></p>',
 
             'author' => '<p class="comment-form-author"><label for="author">' . __('Name') . '</label> ' . ($req ? '<span class="required">*</span>' : '') .
-                '<input id="author" name="author" type="text" value="' . esc_attr($author['comment_author']) . ' " size="40" ' . $aria_req . ' /></p>',
+                '<input placeholder="' . pll__('Your name') . '" id="author" name="author" type="text"   size="30" /></p>',
 
         );
         $comments_args = array(
