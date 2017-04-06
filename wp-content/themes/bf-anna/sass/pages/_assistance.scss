@@ -3,11 +3,11 @@
 
     .assistance-wrapper {
         padding: 20px 0;
-    }
+        min-height: 200px;
 
-    .assistance-requisites, .assistance-title {
-        box-sizing: border-box;
-        width: 100%;
+        @media (min-width: 600px) {
+            min-height: 500px;
+        }
     }
 
     // blocks formatting
@@ -17,19 +17,4 @@
         text-align: center;
     }
 
-    h3 {
-        margin-bottom: 20px;
-    }
-
-    @media (min-width: 850px) {
-        .assistance-requisites, .assistance-title {
-            width: 50%;
-            float: left;
-            padding: 20px;
-        }
-
-        iframe {
-            width: 100%;
-        }
-    }
 }
