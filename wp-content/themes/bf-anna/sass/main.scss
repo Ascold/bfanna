@@ -1,7 +1,10 @@
 @import "normalize/import-now";
 
+
+
 @import 'utils/variables';
 @import 'utils/content-align';
+
 
 @import 'mixins/mixins';
 
@@ -11,14 +14,20 @@
 @import 'layout/header';
 @import 'layout/footer';
 
+@import 'pages/projects';
 @import 'pages/home';
 @import 'pages/comments';
 @import 'pages/gallery';
 @import 'pages/gallery-single';
 @import 'pages/contacts';
 @import 'pages/assistance';
+@import 'pages/events';
+@import 'pages/events-single-post';
 
 
 @import 'themes/theme';
+
+@import 'media/comments-media';
+@import 'media/gallery-page-media';
 
 

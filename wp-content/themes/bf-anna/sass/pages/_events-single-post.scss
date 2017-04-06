@@ -1,0 +1,26 @@
+.events-single-post {
+    padding: 0 15px;
+
+    h2 {
+        margin-top: 30px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .post-thumbnail {
+        text-align: center;
+
+        img {
+            max-width: 100%;
+        }
+    }
+
+    .post-content {
+        margin-top: 20px;
+    }
+
+    .post-date {
+        text-align: right;
+        margin-top: 20px;
+    }
+}

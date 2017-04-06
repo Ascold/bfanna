@@ -43,21 +43,16 @@ if (!function_exists('bf_anna_setup')) :
          */
         add_theme_support('post-thumbnails');
 
-
-        //Add thumbnail size for carousel slides
-
-        add_image_size('slider-image', 750, 400, true);
-
-        add_image_size('slider-image', 1000, 400, true);
-
+        //Add image sizes
+        add_image_size('front-page-slider-image', 1400, 460, true);
         add_image_size('album-grid', 500, 300, true);
         add_image_size('thumb-gallery', 350, 250, true);
-
 
         // This theme uses wp_nav_menu() in one location.
         register_nav_menus(array(
             'menu-1' => esc_html__('Primary', 'bf-anna'),
             'menu-2' => esc_html__('Menu for lang switcher'),
+            'menu-3' => esc_html__('Menu in footer'),
         ));
 
         /*
@@ -147,7 +142,7 @@ function bf_anna_scripts()
     wp_enqueue_style('OwlCarousel', get_template_directory_uri() . '/libs/OwlCarousel/dist/assets/owl.carousel.min.css', array(), ' ');
 
     //Register flex-slider files
-    wp_enqueue_script('flexslider-scripts', get_stylesheet_directory_uri() . '/libs/flexslider/jquery.flexslider.js ', array('jquery'), ' ');
+    wp_enqueue_script('flexslider-scripts', get_stylesheet_directory_uri() . '/libs/flexslider/jquery.flexslider.js', array('jquery'), ' ');
     wp_enqueue_style('flexslider', get_template_directory_uri() . '/libs/flexslider/flexslider.css', array(), ' ');
 
     //Register bootstrap css from CDN
@@ -164,7 +159,6 @@ function bf_anna_scripts()
 
     //Register main.js file
     wp_enqueue_script('main-js-file', get_template_directory_uri() . '/js/main.js');
-
 
     //Register main.css file
     $theme_uri = get_template_directory_uri();
@@ -214,28 +208,21 @@ require get_template_directory() . '/inc/customizer.php';
  */
 require get_template_directory() . '/inc/jetpack.php';
 
-
-
-/**
- * Loading google fonts
- */
-
-add_action('wp_print_styles', 'load_fonts');
-
 function create_posttype()
 {
     register_post_type('photo_gallery_img',
         array(
             'labels' => array(
                 'name' => __('photo_gallery_img'),
-                'singular_name' => __('gallery_img')
+                'singular_name' => __('gallery_img'),
+                'menu_name' => __('Галлерея')
             ),
             'public' => true,
             'show_ui' => true,
             'show_in_menu' => true,
             'query_var' => true,
             'rewrite' => true,
-            'supports' => array('title', 'editor', 'thumbnail','custom-fields')
+            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields')
         )
     );
 
@@ -279,106 +266,121 @@ add_filter('get_default_comment_status', 'wph_enable_comments_pages', 10, 3);
 //включение комментариев для страниц по умолчанию end
 
 
-function mytheme_comment($comment, $args, $depth)
+//function mytheme_comment($comment, $args, $depth)
+//{
+//    $GLOBALS['comment'] = $comment; ?>
+<!--        <li --><?php //comment_class(); ?><!-- id="li-comment---><?php //comment_ID() ?><!--">-->
+    <!--    <div id="comment---><?php //comment_ID(); ?><!--">-->
+    <!--        <div class="comment-inner">-->
+    <!--            <div class="title-for-comment">-->
+    <!--                <h3>-->
+    <!--                    --><?php //echo get_comment_meta($comment->comment_ID, 'my_metadata_key', true); ?>
+    <!--                </h3>-->
+    <!---->
+    <!--            </div>-->
+    <!--            <div class="comment-text">-->
+    <!--                --><?php //comment_text() ?>
+    <!--            </div>-->
+    <!--            <div class="comment-footer">-->
+    <!--                <div class="comment-meta commentmetadata">-->
+    <!--                    <div class="fn">--><?php //echo get_comment_author_link() ?><!-- </div>-->
+    <!--                    <div class="com-date">--><?php //echo get_comment_date('d/m/Y') ?><!--</div>-->
+    <!--                </div>-->
+    <!--                <div class="reply">-->
+    <!--                    --><?php //comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!---->
+    <!--    --><?php
+//}
+//
+//?>
+<?php function sort_comment_fields($fields)
 {
-$GLOBALS['comment'] = $comment; ?>
-<li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
-    <div id="comment-<?php comment_ID(); ?>">
-        <div class="comment-inner">
-            <div class="title-for-comment">
-                <h3>
-                    <?php echo get_comment_meta($comment->comment_ID, 'title', true); ?>
-                </h3>
-            </div>
-            <div class="comment-text">
-                <?php comment_text() ?>
-            </div>
-            <div class="comment-footer">
-                <div class="comment-meta commentmetadata">
-                    <div class="fn"><?php echo get_comment_author_link() ?></div>
+    $new_fields = array();
+    $myorder = array('author', 'title', 'comment');
+
+    foreach ($myorder as $key) {
+        $new_fields[$key] = $fields[$key];
+        unset($fields[$key]);
+    }
+
+    if ($fields)
+        foreach ($fields as $key => $val)
+            $new_fields[$key] = $val;
+    return $new_fields;
+}
+
+add_filter('comment_form_fields', 'sort_comment_fields');
+
+function remove_comment_fields($fields)
+{
+    unset($fields['email']);
+    return $fields;
+}
+
+add_filter('comment_form_default_fields', 'remove_comment_fields');
+
+
+function add_comment_fields($fields)
+{
+
+    $fields['title'] = '<p class="comment-form-age"><label for="age">' . __('Title') . '</label>' .
+        '<input id="title" name="title" type="text" size="30" /></p>';
+    return $fields;
+}
+
+add_filter('comment_form_default_fields', 'add_comment_fields');
+
+
+function add_comment_meta_values($comment_id) {
+
+    if(isset($_POST['title'])) {
+        $title = wp_filter_nohtml_kses($_POST['title']);
+        add_comment_meta($comment_id, 'title', $title, false);
+    }
+}
+add_action ('comment_post', 'add_comment_meta_values', 1);
+
+
+function my_comments_callback( $comment, $args, $depth ) {
+
+    $GLOBALS['comment'] = $comment;
+    ?>
+    <li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
+        <div id="comment-<?php comment_ID(); ?>">
+            <div class="comment-inner">
+                <div class="title-for-comment">
+                    <h3>
+                        <?php echo get_comment_meta($comment->comment_ID, 'title', true); ?>
+                    </h3>
                 </div>
-                <div class="reply">
-                    <?php comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+                <div class="comment-text">
+                    <?php comment_text() ?>
+                </div>
+                <div class="comment-footer">
+                    <div class="comment-meta commentmetadata">
+                        <div class="fn"><?php echo get_comment_author_link() ?> </div>
+                        <div class="com-date"><?php echo get_comment_date('d/m/Y') ?></div>
+                    </div>
+                    <div class="reply">
+                        <?php comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+                    </div>
                 </div>
             </div>
         </div>
-
-    </div>
-
+    </li>
     <?php
-    }
-
-    ?>
-    <?php function sort_comment_fields($fields)
-    {
-        $new_fields = array();
-        $myorder = array('author', 'title', 'comment');
-
-        foreach ($myorder as $key) {
-            $new_fields[$key] = $fields[$key];
-            unset($fields[$key]);
-        }
-
-        if ($fields)
-            foreach ($fields as $key => $val)
-                $new_fields[$key] = $val;
-        return $new_fields;
-    }
-
-    add_filter('comment_form_fields', 'sort_comment_fields');
-
-    function remove_comment_fields($fields)
-    {
-        unset($fields['email']);
-        return $fields;
-    }
-
-    add_filter('comment_form_default_fields', 'remove_comment_fields');
-
-    function add_comment_fields($fields)
-    {
-
-        $fields['title'] = '<p class="comment-form-title"><label for="title">' . __('тема відгуку') . '</label>' .
-            '<input id="title" class="title-comment"  type="text" size="40"/></p>';
-        return $fields;
-
-    }
-
-    add_filter('comment_form_default_fields', 'add_comment_fields');
-
-    add_action('comment_post', 'add_comment_meta_values', 1);
-
-
-    function add_comment_meta_values($comment_id)
-    {
-
-        if (isset($_POST['title'])) {
-            $title = wp_filter_nohtml_kses($_POST['title']);
-            add_comment_meta($comment_id, 'title', $title, false);
-        }
-    }
-
-    add_action('comment_post', 'add_comment_meta_values', 1);
-
-    ?>
-
-    <?php
-    add_filter('comments_array', function ($comments) {
-        return array_reverse($comments);
-    });
-
-
-add_action( 'wp_enqueue_scripts', 'custom_shortcode_scripts');
-function custom_shortcode_scripts() {
-    global $post;
-    if( has_shortcode( $post->post_content, 'gallery') ) {
-        wp_enqueue_script( 'custom-script');
-    }
 }
+?>
 
 
 
-function my_meta_box() {
+<?php
+function my_meta_box()
+{
     add_meta_box(
         'date-album', // Идентификатор(id)
         'date-album', // Заголовок области с мета-полями(title)
@@ -387,24 +389,26 @@ function my_meta_box() {
         'normal',
         'high');
 }
+
 add_action('add_meta_boxes', 'my_meta_box'); // Запускаем функцию
 
 $meta_fields = array(
     array(
         'label' => 'Дата',
-        'desc'  => 'Введите дату',
-        'id'    => 'date-album', // даем идентификатор.
-        'type'  => 'text'  // Указываем тип поля.
+        'desc' => 'Введите дату',
+        'id' => 'date-album', // даем идентификатор.
+        'type' => 'text'  // Указываем тип поля.
     )
 
 
 );
 // Вызов метаполей
-function show_my_metabox() {
+function show_my_metabox()
+{
     global $meta_fields; // Обозначим наш массив с полями глобальным
     global $post;  // Глобальный $post для получения id создаваемого/редактируемого поста
 // Выводим скрытый input, для верификации. Безопасность прежде всего!
-    echo '<input type="hidden" name="custom_meta_box_nonce" value="'.wp_create_nonce(basename(__FILE__)).'" />';
+    echo '<input type="hidden" name="custom_meta_box_nonce" value="' . wp_create_nonce(basename(__FILE__)) . '" />';
 
     // Начинаем выводить таблицу с полями через цикл
     echo '<table class="form-table">';
@@ -413,9 +417,9 @@ function show_my_metabox() {
         $meta = get_post_meta($post->ID, $field['id'], true);
         // Начинаем выводить таблицу
         echo '<tr> 
-                <th><label for="'.$field['id'].'">'.$field['label'].'</label></th> 
+                <th><label for="' . $field['id'] . '">' . $field['label'] . '</label></th> 
                 <td>';
-        switch($field['type']) {
+        switch ($field['type']) {
             case 'text':
                 echo '<input type="text" name="' . $field['id'] . '" id="' . $field['id'] . '" value="' . $meta . '" size="30" />
         <br /><span class="description">' . $field['desc'] . '</span>';
@@ -432,7 +436,8 @@ function show_my_metabox() {
 
 
 // Пишем функцию для сохранения
-function save_my_meta_fields($post_id) {
+function save_my_meta_fields($post_id)
+{
     global $meta_fields;  // Массив с нашими полями
 
     // проверяем наш проверочный код
@@ -460,6 +465,12 @@ function save_my_meta_fields($post_id) {
         }
     } // end foreach
 }
+
 add_action('save_post', 'save_my_meta_fields'); // Запускаем функцию сохранения
 
+pll_register_string('read_more', 'Читать дальше...');
+pll_register_string('title_reply', 'Ваш відгук дуже важливий для нас');
+pll_register_string('label_submit', 'Відправити');
+pll_register_string('more', 'Більше відгуків');
+pll_register_string('submit', 'До початку');
 
