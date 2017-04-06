@@ -1,7 +1,10 @@
 @import "normalize/import-now";
 
+
+
 @import 'utils/variables';
 @import 'utils/content-align';
+
 
 @import 'mixins/mixins';
 
@@ -23,3 +26,8 @@
 
 
 @import 'themes/theme';
+
+@import 'media/comments-media';
+@import 'media/gallery-page-media';
+
+

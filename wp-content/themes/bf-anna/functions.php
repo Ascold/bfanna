@@ -267,36 +267,37 @@ add_filter('get_default_comment_status', 'wph_enable_comments_pages', 10, 3);
 //включение комментариев для страниц по умолчанию end
 
 
-function mytheme_comment($comment, $args, $depth)
-{
-    $GLOBALS['comment'] = $comment; ?>
-    <li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
-    <div id="comment-<?php comment_ID(); ?>">
-        <div class="comment-inner">
-            <div class="title-for-comment">
-                <h3>
-                    <?php echo get_comment_meta($comment->comment_ID, 'title', true); ?>
-                </h3>
-            </div>
-            <div class="comment-text">
-                <?php comment_text() ?>
-            </div>
-            <div class="comment-footer">
-                <div class="comment-meta commentmetadata">
-                    <div class="fn"><?php echo get_comment_author_link() ?></div>
-                </div>
-                <div class="reply">
-                    <?php comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <?php
-}
-
-?>
+//function mytheme_comment($comment, $args, $depth)
+//{
+//    $GLOBALS['comment'] = $comment; ?>
+<!--        <li --><?php //comment_class(); ?><!-- id="li-comment---><?php //comment_ID() ?><!--">-->
+    <!--    <div id="comment---><?php //comment_ID(); ?><!--">-->
+    <!--        <div class="comment-inner">-->
+    <!--            <div class="title-for-comment">-->
+    <!--                <h3>-->
+    <!--                    --><?php //echo get_comment_meta($comment->comment_ID, 'my_metadata_key', true); ?>
+    <!--                </h3>-->
+    <!---->
+    <!--            </div>-->
+    <!--            <div class="comment-text">-->
+    <!--                --><?php //comment_text() ?>
+    <!--            </div>-->
+    <!--            <div class="comment-footer">-->
+    <!--                <div class="comment-meta commentmetadata">-->
+    <!--                    <div class="fn">--><?php //echo get_comment_author_link() ?><!-- </div>-->
+    <!--                    <div class="com-date">--><?php //echo get_comment_date('d/m/Y') ?><!--</div>-->
+    <!--                </div>-->
+    <!--                <div class="reply">-->
+    <!--                    --><?php //comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!---->
+    <!--    --><?php
+//}
+//
+//?>
 <?php function sort_comment_fields($fields)
 {
     $new_fields = array();
@@ -326,10 +327,9 @@ add_filter('comment_form_default_fields', 'remove_comment_fields');
 function add_comment_fields($fields)
 {
 
-    $fields['title'] = '<p class="comment-form-title"><label for="title">' . __('тема відгуку') . '</label>' .
-        '<input id="title" class="title-comment"  type="text" size="40"/></p>';
+    $fields['title'] = '<p class="comment-form-age"><label for="age">' . __('Title') . '</label>' .
+        '<input id="title" name="title" type="text" size="30" /></p>';
     return $fields;
-
 }
 
 add_filter('comment_form_default_fields', 'add_comment_fields');
@@ -337,35 +337,51 @@ add_filter('comment_form_default_fields', 'add_comment_fields');
 add_action('comment_post', 'add_comment_meta_values', 1);
 
 
-function add_comment_meta_values($comment_id)
-{
+function add_comment_meta_values($comment_id) {
 
-    if (isset($_POST['title'])) {
+    if(isset($_POST['title'])) {
         $title = wp_filter_nohtml_kses($_POST['title']);
         add_comment_meta($comment_id, 'title', $title, false);
     }
 }
 
-add_action('comment_post', 'add_comment_meta_values', 1);
+add_action ('comment_post', 'add_comment_meta_values', 1);
 
+
+function my_comments_callback( $comment, $args, $depth ) {
+
+    $GLOBALS['comment'] = $comment;
+    ?>
+    <li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
+        <div id="comment-<?php comment_ID(); ?>">
+            <div class="comment-inner">
+                <div class="title-for-comment">
+                    <h3>
+                        <?php echo get_comment_meta($comment->comment_ID, 'title', true); ?>
+                    </h3>
+                </div>
+                <div class="comment-text">
+                    <?php comment_text() ?>
+                </div>
+                <div class="comment-footer">
+                    <div class="comment-meta commentmetadata">
+                        <div class="fn"><?php echo get_comment_author_link() ?> </div>
+                        <div class="com-date"><?php echo get_comment_date('d/m/Y') ?></div>
+                    </div>
+                    <div class="reply">
+                        <?php comment_reply_link(array_merge($args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    <?php
+}
 ?>
 
 
-    <?php
-//    add_filter('comments_array', function ($comments) {
-//        return array_reverse($comments);
-//    });
 
-
-add_action('wp_enqueue_scripts', 'custom_shortcode_scripts');
-function custom_shortcode_scripts()
-{
-    global $post;
-    if (has_shortcode($post->post_content, 'gallery')) {
-        wp_enqueue_script('custom-script');
-    }
-}
-
+<?php
 
 function my_meta_box()
 {
@@ -424,20 +440,22 @@ function show_my_metabox()
 
 
 // Пишем функцию для сохранения
-function save_my_meta_fields($post_id)
-{
+function save_my_meta_fields($post_id) {
     global $meta_fields;  // Массив с нашими полями
 
     // проверяем наш проверочный код
-    if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__)))
+    if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__))) {
         return $post_id;
+    }
     // Проверяем авто-сохранение
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
         return $post_id;
+    }
     // Проверяем права доступа
     if ('page' == $_POST['post_type']) {
-        if (!current_user_can('edit_page', $post_id))
+        if (!current_user_can('edit_page', $post_id)) {
             return $post_id;
+        }
     } elseif (!current_user_can('edit_post', $post_id)) {
         return $post_id;
     }
@@ -460,6 +478,11 @@ add_action('save_post', 'save_my_meta_fields'); // Запускаем функц
 // Регистрируем переводы для страниц Мероприятия, Контакты, Реквизиты
 pll_register_string('events_page_title', 'Мероприятия');
 pll_register_string('read_more', 'Читать дальше...');
+
+pll_register_string('title_reply', 'Ваш відгук дуже важливий для нас');
+pll_register_string('label_submit', 'Відправити');
+pll_register_string('more', 'Більше відгуків');
+pll_register_string('submit', 'До початку');
 
 pll_register_string('contacts_page_title', 'Контакты');
 pll_register_string('address', 'Адрес');
