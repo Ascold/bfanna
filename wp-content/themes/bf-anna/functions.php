@@ -468,9 +468,10 @@ pll_register_string('requisites', 'Реквизиты');
 // Подключаем функцию активации мета блока
 add_action('add_meta_boxes', 'contacts_page_metabox_create', 1);
 
-function contacts_page_metabox_create()
-{
-    if (121 == $_GET['post'] || 24 == $_GET['post']):
+function contacts_page_metabox_create() {
+    $contacts_ru_id = get_page_by_path('contacts-ru')->ID;
+    $contacts_ua_id = get_page_by_path('contacts-ukr')->ID;
+    if ($contacts_ru_id == $_GET['post'] || $contacts_ua_id == $_GET['post']):
         add_meta_box(
             'contacts_page_metabox',
             'Контактные данные',
@@ -484,6 +485,7 @@ function contacts_page_metabox_create()
 // Добавляем необходимые поля
 function contacts_page_metabox_show($post)
 {
+    $contacts_ru_id = get_page_by_path('contacts-ru')->ID;
     ?>
     <div class="my-admin-page-styles">
         <p class="user-tutorial">
@@ -505,13 +507,13 @@ function contacts_page_metabox_show($post)
             <legend>Телефоны:</legend>
             <label for="contacts[tel_1]">тел. #1: </label>
             <input type="text" name="contacts[tel_1]" id="contacts[tel_1]"
-                   value="<?php echo get_post_meta('121', 'tel_1', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
+                   value="<?php echo get_post_meta($contacts_ru_id, 'tel_1', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
             <label for="contacts[tel_2]">тел. #2: </label>
             <input type="text" name="contacts[tel_2]" id="contacts[tel_2]"
-                   value="<?php echo get_post_meta('121', 'tel_2', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
+                   value="<?php echo get_post_meta($contacts_ru_id, 'tel_2', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
             <label for="contacts[tel_3]">тел. #2: </label>
             <input type="text" name="contacts[tel_3]" id="contacts[tel_3]"
-                   value="<?php echo get_post_meta('121', 'tel_3', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
+                   value="<?php echo get_post_meta($contacts_ru_id, 'tel_3', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
         </fieldset>
         </div>
         <div>
@@ -519,16 +521,16 @@ function contacts_page_metabox_show($post)
             <legend>Социальные сети:</legend>
             <label for="contacts[socials_vk]">VK: </label>
             <input type="text" name="contacts[socials_vk]" id="contacts[socials_vk]"
-                   value="<?php echo get_post_meta('121', 'socials_vk', true); ?>"><br>
+                   value="<?php echo get_post_meta($contacts_ru_id, 'socials_vk', true); ?>"><br>
             <label for="contacts[socials_fb]">Facebook: </label>
             <input type="text" name="contacts[socials_fb]" id="contacts[socials_fb]"
-                   value="<?php echo get_post_meta('121', 'socials_fb', true); ?>">
+                   value="<?php echo get_post_meta($contacts_ru_id, 'socials_fb', true); ?>">
         </fieldset>
         </div>
         <p>
             <label for="contacts[email]">Email: </label>
             <input type="text" name="contacts[email]" id="contacts[email]"
-                   value="<?php echo get_post_meta('121', 'email', true); ?>" placeholder="Email">
+                   value="<?php echo get_post_meta($contacts_ru_id, 'email', true); ?>" placeholder="Email">
         </p>
         <p>
             <label for="contacts[map]">Код для карты Google Map: </label>
@@ -554,8 +556,8 @@ function contacts_page_metabox_show($post)
 add_action('save_post', 'contacts_page_metabox_update');
 
 /* Сохраняем данные, при сохранении поста */
-function contacts_page_metabox_update($post_id)
-{
+function contacts_page_metabox_update($post_id) {
+    $contacts_ru_id = get_page_by_path('contacts-ru')->ID;
     //if ( ! wp_verify_nonce($_POST['extra_fields_nonce'], __FILE__) ) return false; // проверка
     //if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE  ) return false; // выходим если это автосохранение
     // if ( !current_user_can('edit_page', $post_id) ) return false; // выходим если юзер не имеет право редактировать запись
@@ -568,11 +570,11 @@ function contacts_page_metabox_update($post_id)
     $_POST['contacts'] = array_map('trim', $_POST['contacts']); // чистим все данные от пробелов по краям
     foreach ($_POST['contacts'] as $key => $value) {
         if (empty($value)) {
-            delete_post_meta($key != 'address' ? '121' : $post_id, $key); // удаляем поле если значение пустое
+            delete_post_meta($key != 'address' ? $contacts_ru_id : $post_id, $key); // удаляем поле если значение пустое
             continue;
         }
 
-        update_post_meta($key != 'address' ? '121' : $post_id, $key, $value); // add_post_meta() работает автоматически
+        update_post_meta($key != 'address' ? $contacts_ru_id : $post_id, $key, $value); // add_post_meta() работает автоматически
     }
     return $post_id;
 }
