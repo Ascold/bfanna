@@ -11,7 +11,7 @@
             ?>
             <h2> <?php echo get_the_title(); ?> </h2>
             <div class="post-thumbnail">
-                <img src="<?php echo has_post_thumbnail() ? get_the_post_thumbnail_url() : 'http://localhost/bfanna/wordpress/wp-content/uploads/2017/03/has_no_featured_image.jpg'; ?>"
+                <img src="<?php echo get_the_post_thumbnail_url(); ?>"
                      alt="<?php echo get_the_title() ?>">
             </div>
             <div class="post-date">
