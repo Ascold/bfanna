@@ -589,14 +589,13 @@ a:active {
 .main-navigation ul ul a.focus {
 }
 
-.main-navigation ul li:hover > ul,
-.main-navigation ul li.focus > ul {
-	/*left: auto;*/
+.main-navigation ul li:hover > ul {
+	left: auto;
 }
 
 .main-navigation ul ul li:hover > ul,
 .main-navigation ul ul li.focus > ul {
-	/*left: 100%;*/
+	left: 100%;
 }
 
 .main-navigation .current_page_item > a,
