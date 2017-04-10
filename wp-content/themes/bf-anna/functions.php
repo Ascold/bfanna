@@ -42,7 +42,7 @@ if (!function_exists('bf_anna_setup')) :
         add_image_size('front-page-slider-image', 1400, 460, true);
         add_image_size('album-grid', 500, 300, true);
         add_image_size('thumb-gallery', 350, 250, true);
-        // This theme uses wp_nav_menu() in one location.
+        // This theme uses wp_nav_menu() in two locations - header and footer. Also, another menu for language switcher
         register_nav_menus(array(
             'menu-1' => esc_html__('Primary', 'bf-anna'),
             'menu-2' => esc_html__('Menu for lang switcher'),
@@ -288,11 +288,7 @@ function my_comments_callback( $comment, $args, $depth ) {
     </li>
     <?php
 }
-?>
 
-
-
-<?php
 function my_meta_box()
 {
     add_meta_box(

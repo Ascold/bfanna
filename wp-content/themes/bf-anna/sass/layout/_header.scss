@@ -90,4 +90,10 @@ header#masthead {
             right: 130px
         }
     }
+    .focus {
+        border-bottom: none !important;
+        .sub-menu {
+            display: none !important;
+        }
+    }
 }
