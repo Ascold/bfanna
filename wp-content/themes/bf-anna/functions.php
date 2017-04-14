@@ -80,6 +80,7 @@ function bf_anna_content_width()
 {
     $GLOBALS['content_width'] = apply_filters('bf_anna_content_width', 640);
 }
+
 add_action('after_setup_theme', 'bf_anna_content_width', 0);
 /**
  * Register widget area.
@@ -107,6 +108,7 @@ function bf_anna_widgets_init()
         'after_title' => '</h2>',
     ));
 }
+
 add_action('widgets_init', 'bf_anna_widgets_init');
 /**
  * Enqueue scripts and styles.
@@ -143,6 +145,7 @@ function bf_anna_scripts()
         wp_enqueue_script('comment-reply');
     }
 }
+
 add_action('wp_enqueue_scripts', 'bf_anna_scripts');
 /**
  * Loading google fonts
@@ -152,6 +155,7 @@ function load_fonts()
     wp_register_style('et-googleFonts', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i" rel="stylesheet');
     wp_enqueue_style('et-googleFonts');
 }
+
 add_action('wp_print_styles', 'load_fonts');
 /**
  * Implement the Custom Header feature.
@@ -209,6 +213,7 @@ function create_posttype()
         )
     );
 }
+
 add_action('init', 'create_posttype');
 //включение комментариев для страниц по умолчанию start
 function wph_enable_comments_pages($status, $post_type, $comment_type)
@@ -222,6 +227,7 @@ function wph_enable_comments_pages($status, $post_type, $comment_type)
     }
     return $status;
 }
+
 add_filter('get_default_comment_status', 'wph_enable_comments_pages', 10, 3);
 //включение комментариев для страниц по умолчанию end
 ?>
@@ -238,12 +244,14 @@ add_filter('get_default_comment_status', 'wph_enable_comments_pages', 10, 3);
             $new_fields[$key] = $val;
     return $new_fields;
 }
+
 add_filter('comment_form_fields', 'sort_comment_fields');
 function remove_comment_fields($fields)
 {
     unset($fields['email']);
     return $fields;
 }
+
 add_filter('comment_form_default_fields', 'remove_comment_fields');
 function add_comment_fields($fields)
 {
@@ -251,16 +259,20 @@ function add_comment_fields($fields)
         '<input id="title" name="title" type="text" size="30" /></p>';
     return $fields;
 }
+
 add_filter('comment_form_default_fields', 'add_comment_fields');
 add_action('comment_post', 'add_comment_meta_values', 1);
-function add_comment_meta_values($comment_id) {
-    if(isset($_POST['title'])) {
+function add_comment_meta_values($comment_id)
+{
+    if (isset($_POST['title'])) {
         $title = wp_filter_nohtml_kses($_POST['title']);
         add_comment_meta($comment_id, 'title', $title, false);
     }
 }
-add_action ('comment_post', 'add_comment_meta_values', 1);
-function my_comments_callback( $comment, $args, $depth ) {
+
+add_action('comment_post', 'add_comment_meta_values', 1);
+function my_comments_callback($comment, $args, $depth)
+{
     $GLOBALS['comment'] = $comment;
     ?>
     <li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
@@ -299,6 +311,7 @@ function my_meta_box()
         'normal',
         'high');
 }
+
 add_action('add_meta_boxes', 'my_meta_box'); // Запускаем функцию
 $meta_fields = array(
     array(
@@ -338,8 +351,10 @@ function show_my_metabox()
     }
     echo '</table>';
 }
+
 // Пишем функцию для сохранения
-function save_my_meta_fields($post_id) {
+function save_my_meta_fields($post_id)
+{
     global $meta_fields;  // Массив с нашими полями
     // проверяем наш проверочный код
     if (!wp_verify_nonce($_POST['custom_meta_box_nonce'], basename(__FILE__))) {
@@ -368,6 +383,7 @@ function save_my_meta_fields($post_id) {
         }
     } // end foreach
 }
+
 add_action('save_post', 'save_my_meta_fields'); // Запускаем функцию сохранения
 // Регистрируем переводы для страниц Мероприятия, Контакты, Реквизиты
 pll_register_string('events_page_title', 'Мероприятия');
@@ -386,7 +402,8 @@ pll_register_string('requisites', 'Реквизиты');
 // Подключаем функцию активации мета блока
 add_action('add_meta_boxes', 'contacts_page_metabox_create', 1);
 
-function contacts_page_metabox_create() {
+function contacts_page_metabox_create()
+{
     $contacts_ru_id = get_page_by_path('contacts-ru')->ID;
     $contacts_ua_id = get_page_by_path('contacts-ukr')->ID;
     if ($contacts_ru_id == $_GET['post'] || $contacts_ua_id == $_GET['post']):
@@ -400,6 +417,7 @@ function contacts_page_metabox_create() {
             'high');
     endif;
 }
+
 // Добавляем необходимые поля
 function contacts_page_metabox_show($post)
 {
@@ -422,29 +440,32 @@ function contacts_page_metabox_show($post)
         </p>
         <div>
 
-        <fieldset>
-            <legend>Телефоны:</legend>
-            <label for="contacts[tel_1]">тел. #1: </label>
-            <input type="text" name="contacts[tel_1]" id="contacts[tel_1]"
-                   value="<?php echo get_post_meta($contacts_ru_id, 'tel_1', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
-            <label for="contacts[tel_2]">тел. #2: </label>
-            <input type="text" name="contacts[tel_2]" id="contacts[tel_2]"
-                   value="<?php echo get_post_meta($contacts_ru_id, 'tel_2', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
-            <label for="contacts[tel_3]">тел. #2: </label>
-            <input type="text" name="contacts[tel_3]" id="contacts[tel_3]"
-                   value="<?php echo get_post_meta($contacts_ru_id, 'tel_3', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
-        </fieldset>
+            <fieldset>
+                <legend>Телефоны:</legend>
+                <label for="contacts[tel_1]">тел. #1: </label>
+                <input type="text" name="contacts[tel_1]" id="contacts[tel_1]"
+                       value="<?php echo get_post_meta($contacts_ru_id, 'tel_1', true); ?>"
+                       placeholder="+380 ХХ ХХХХХХХ"><br>
+                <label for="contacts[tel_2]">тел. #2: </label>
+                <input type="text" name="contacts[tel_2]" id="contacts[tel_2]"
+                       value="<?php echo get_post_meta($contacts_ru_id, 'tel_2', true); ?>"
+                       placeholder="+380 ХХ ХХХХХХХ"><br>
+                <label for="contacts[tel_3]">тел. #2: </label>
+                <input type="text" name="contacts[tel_3]" id="contacts[tel_3]"
+                       value="<?php echo get_post_meta($contacts_ru_id, 'tel_3', true); ?>"
+                       placeholder="+380 ХХ ХХХХХХХ"><br>
+            </fieldset>
         </div>
         <div>
-        <fieldset>
-            <legend>Социальные сети:</legend>
-            <label for="contacts[socials_vk]">VK: </label>
-            <input type="text" name="contacts[socials_vk]" id="contacts[socials_vk]"
-                   value="<?php echo get_post_meta($contacts_ru_id, 'socials_vk', true); ?>"><br>
-            <label for="contacts[socials_fb]">Facebook: </label>
-            <input type="text" name="contacts[socials_fb]" id="contacts[socials_fb]"
-                   value="<?php echo get_post_meta($contacts_ru_id, 'socials_fb', true); ?>">
-        </fieldset>
+            <fieldset>
+                <legend>Социальные сети:</legend>
+                <label for="contacts[socials_vk]">VK: </label>
+                <input type="text" name="contacts[socials_vk]" id="contacts[socials_vk]"
+                       value="<?php echo get_post_meta($contacts_ru_id, 'socials_vk', true); ?>"><br>
+                <label for="contacts[socials_fb]">Facebook: </label>
+                <input type="text" name="contacts[socials_fb]" id="contacts[socials_fb]"
+                       value="<?php echo get_post_meta($contacts_ru_id, 'socials_fb', true); ?>">
+            </fieldset>
 
         </div>
         <p>
@@ -471,10 +492,12 @@ function contacts_page_metabox_show($post)
 
     <?php
 }
+
 // включаем обновление полей при сохранении
 add_action('save_post', 'contacts_page_metabox_update');
 /* Сохраняем данные, при сохранении поста */
-function contacts_page_metabox_update($post_id) {
+function contacts_page_metabox_update($post_id)
+{
     $contacts_ru_id = get_page_by_path('contacts-ru')->ID;
     //if ( ! wp_verify_nonce($_POST['extra_fields_nonce'], __FILE__) ) return false; // проверка
     //if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE  ) return false; // выходим если это автосохранение
@@ -493,6 +516,7 @@ function contacts_page_metabox_update($post_id) {
     }
     return $post_id;
 }
+
 // Стилим админку
 add_action('admin_enqueue_scripts', 'metabox_styling');
 function metabox_styling()
@@ -506,22 +530,40 @@ function metabox_styling()
             font-weight: bold;
             padding-top: 4px;
         }
+
         .my-admin-page-styles legend {
             font-size: 12px;
             font-weight: bold;
             margin-bottom: 10px;
         }
+
         .my-admin-page-styles p,
         .my-admin-page-styles div {
             padding: 10px;
         }
+
         .my-admin-page-styles .user-tutorial {
             font-style: italic;
             color: #a05b2f;
         }
+
         .my-admin-page-styles input[name='contacts[map]'] {
             width: 100%;
         }
     </style>
     <?php
 }
+
+//Fix error in nav-menu classes
+function fix_nav_classes($classes, $item)
+{
+    if ((is_singular('photo_gallery_img'))) :
+        $classes = array_diff($classes, array('current_page_parent'));
+        if ($item->object_id == 17 || $item->object_id == 112) :
+            $classes[] = 'current_page_parent';
+        endif;
+    endif;
+    return $classes;
+}
+
+add_filter('nav_menu_css_class', 'fix_nav_classes', 10, 2);
