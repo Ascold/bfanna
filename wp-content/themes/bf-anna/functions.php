@@ -223,7 +223,8 @@ function create_posttype()
             'show_in_menu' => true,
             'query_var' => true,
             'rewrite' => true,
-            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields')
+            'supports' => array('title', 'editor', 'thumbnail', 'custom-fields', 'page-attributes'),
+            'hierarchical' => true,
         )
     );
 
@@ -307,18 +308,20 @@ add_filter('comment_form_default_fields', 'add_comment_fields');
 add_action('comment_post', 'add_comment_meta_values', 1);
 
 
-function add_comment_meta_values($comment_id) {
+function add_comment_meta_values($comment_id)
+{
 
-    if(isset($_POST['title'])) {
+    if (isset($_POST['title'])) {
         $title = wp_filter_nohtml_kses($_POST['title']);
         add_comment_meta($comment_id, 'title', $title, false);
     }
 }
 
-add_action ('comment_post', 'add_comment_meta_values', 1);
+add_action('comment_post', 'add_comment_meta_values', 1);
 
 
-function my_comments_callback( $comment, $args, $depth ) {
+function my_comments_callback($comment, $args, $depth)
+{
 
     $GLOBALS['comment'] = $comment;
     ?>
@@ -347,8 +350,8 @@ function my_comments_callback( $comment, $args, $depth ) {
     </li>
     <?php
 }
-?>
 
+?>
 
 
 <?php
@@ -410,7 +413,8 @@ function show_my_metabox()
 
 
 // Пишем функцию для сохранения
-function save_my_meta_fields($post_id) {
+function save_my_meta_fields($post_id)
+{
     global $meta_fields;  // Массив с нашими полями
 
     // проверяем наш проверочный код
@@ -468,7 +472,8 @@ pll_register_string('requisites', 'Реквизиты');
 // Подключаем функцию активации мета блока
 add_action('add_meta_boxes', 'contacts_page_metabox_create', 1);
 
-function contacts_page_metabox_create() {
+function contacts_page_metabox_create()
+{
     $contacts_ru_id = get_page_by_path('contacts-ru')->ID;
     $contacts_ua_id = get_page_by_path('contacts-ukr')->ID;
     if ($contacts_ru_id == $_GET['post'] || $contacts_ua_id == $_GET['post']):
@@ -503,29 +508,59 @@ function contacts_page_metabox_show($post)
                       placeholder="Адрес организации"><?php echo get_post_meta($post->ID, 'address', true); ?></textarea>
         </p>
         <div>
-        <fieldset>
-            <legend>Телефоны:</legend>
-            <label for="contacts[tel_1]">тел. #1: </label>
-            <input type="text" name="contacts[tel_1]" id="contacts[tel_1]"
-                   value="<?php echo get_post_meta($contacts_ru_id, 'tel_1', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
-            <label for="contacts[tel_2]">тел. #2: </label>
-            <input type="text" name="contacts[tel_2]" id="contacts[tel_2]"
-                   value="<?php echo get_post_meta($contacts_ru_id, 'tel_2', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
-            <label for="contacts[tel_3]">тел. #2: </label>
-            <input type="text" name="contacts[tel_3]" id="contacts[tel_3]"
-                   value="<?php echo get_post_meta($contacts_ru_id, 'tel_3', true); ?>" placeholder="+380 ХХ ХХХХХХХ"><br>
-        </fieldset>
+            <fieldset>
+                <legend>Телефоны:</legend>
+                <label for="contacts[tel_1]">тел. #1: </label>
+                <input type="text" name="contacts[tel_1]" id="contacts[tel_1]"
+                       value="<?php echo get_post_meta($contacts_ru_id, 'tel_1', true); ?>"
+                       placeholder="+380 ХХ ХХХХХХХ"><br>
+                <label for="contacts[tel_2]">тел. #2: </label>
+                <input type="text" name="contacts[tel_2]" id="contacts[tel_2]"
+                       value="<?php echo get_post_meta($contacts_ru_id, 'tel_2', true); ?>"
+                       placeholder="+380 ХХ ХХХХХХХ"><br>
+                <label for="contacts[tel_3]">тел. #2: </label>
+                <input type="text" name="contacts[tel_3]" id="contacts[tel_3]"
+                       value="<?php echo get_post_meta($contacts_ru_id, 'tel_3', true); ?>"
+                       placeholder="+380 ХХ ХХХХХХХ"><br>
+                <label for="contacts[tel_icon]">Иконка: </label>
+                <input type="text" name="contacts[tel_icon]" id="contacts[tel_icon]"
+                       value="<?php echo esc_html(get_post_meta($contacts_ru_id, 'tel_icon', true)); ?>">
+                <span> <?php echo get_post_meta($contacts_ru_id, 'tel_icon', true); ?> </span>
+            </fieldset>
         </div>
         <div>
-        <fieldset>
-            <legend>Социальные сети:</legend>
-            <label for="contacts[socials_vk]">VK: </label>
-            <input type="text" name="contacts[socials_vk]" id="contacts[socials_vk]"
-                   value="<?php echo get_post_meta($contacts_ru_id, 'socials_vk', true); ?>"><br>
-            <label for="contacts[socials_fb]">Facebook: </label>
-            <input type="text" name="contacts[socials_fb]" id="contacts[socials_fb]"
-                   value="<?php echo get_post_meta($contacts_ru_id, 'socials_fb', true); ?>">
-        </fieldset>
+            <fieldset>
+
+                <legend>Социальные сети:</legend>
+
+                <?php // VK group link
+                ?>
+                <label for="contacts[socials_vk]">VK: </label>
+                <input type="text" name="contacts[socials_vk]" id="contacts[socials_vk]"
+                       value="<?php echo get_post_meta($contacts_ru_id, 'socials_vk', true); ?>">
+
+                <?php // Icon for VK
+                ?>
+                <label for="contacts[socials_vk_icon]">Иконка: </label>
+                <input type="text" name="contacts[socials_vk_icon]" id="contacts[socials_vk_icon]"
+                       value="<?php echo esc_html(get_post_meta($contacts_ru_id, 'socials_vk_icon', true)); ?>">
+                <sppan class="socials-icon"> <?php echo get_post_meta($contacts_ru_id, 'socials_vk_icon', true); ?> </sppan>
+                <br>
+
+                <?php // FaceBook group link
+                ?>
+                <label for="contacts[socials_fb]">Facebook: </label>
+                <input type="text" name="contacts[socials_fb]" id="contacts[socials_fb]"
+                       value="<?php echo get_post_meta($contacts_ru_id, 'socials_fb', true); ?>">
+
+                <?php // Icon for FaceBook
+                ?>
+                <label for="contacts[socials_fb_icon]">Иконка: </label>
+                <input type="text" name="contacts[socials_fb_icon]" id="contacts[socials_fb_icon]"
+                       value="<?php echo esc_html(get_post_meta($contacts_ru_id, 'socials_fb_icon', true)); ?>">
+                <sppan class="socials-icon"> <?php echo get_post_meta($contacts_ru_id, 'socials_fb_icon', true); ?> </sppan>
+
+            </fieldset>
         </div>
         <p>
             <label for="contacts[email]">Email: </label>
@@ -556,7 +591,8 @@ function contacts_page_metabox_show($post)
 add_action('save_post', 'contacts_page_metabox_update');
 
 /* Сохраняем данные, при сохранении поста */
-function contacts_page_metabox_update($post_id) {
+function contacts_page_metabox_update($post_id)
+{
     $contacts_ru_id = get_page_by_path('contacts-ru')->ID;
     //if ( ! wp_verify_nonce($_POST['extra_fields_nonce'], __FILE__) ) return false; // проверка
     //if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE  ) return false; // выходим если это автосохранение
@@ -584,6 +620,7 @@ add_action('admin_enqueue_scripts', 'metabox_styling');
 
 function metabox_styling()
 {
+    wp_head();
     ?>
     <style>
         .my-admin-page-styles label {
@@ -613,6 +650,15 @@ function metabox_styling()
         .my-admin-page-styles input[name='contacts[map]'] {
             width: 100%;
         }
+
+        .my-admin-page-styles input {
+            margin-right: 20px;
+        }
+
+        .my-admin-page-styles .socials-icon {
+            font-size: 14px;
+        }
+
     </style>
     <?php
 }
