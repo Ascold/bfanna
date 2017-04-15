@@ -1,8 +1,12 @@
 header#masthead {
     padding: 20px 0 30px;
     border-bottom: 3px solid grey;
+    position: relative;
     .container-inner {
         @include clearfix;
+    }
+    .menu-toggle {
+        padding: 10px 15px;
     }
     .site-branding {
         float: left;
@@ -10,16 +14,32 @@ header#masthead {
             display: block;
         }
     }
+    .lang-navigation {
+        @include clearfix;
+        float: right;
+        margin-right: 6px;
+        //padding-top: 48px;
+        .lang-menu {
+            @include clearfix;
+            ul {
+                @include clearfix;
+                li {
+                    float: left;
+                    padding: 10px 12px;
+                }
+            }
+        }
+    }
     .main-navigation {
         float: right;
         width: auto;
-        clear: none;
-        padding-top: 48px;
+        clear: right;
+        padding-top: 12px;
         .main-nav-menu {
             float: left;
             ul.menu {
                 @include clearfix;
-                & > li {
+                & > li:not(:last-child) {
                     margin-right: 13px;
                 }
                 .menu-item {
@@ -58,16 +78,16 @@ header#masthead {
                 }
             }
             a {
+                display: inline-block;
                 padding: 10px 15px;
                 text-transform: uppercase;
                 text-decoration: none;
             }
         }
-        .lang-menu {
-            float: right;
-            li {
-                padding: 10px 10px;
-            }
+        button.menu-toggle {
+            position: absolute;
+            top: 64px;
+            right: 130px
         }
     }
 }

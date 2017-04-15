@@ -18,11 +18,13 @@
         <div class="container-fluid">
             <div class="footer-block">
                 <div class="footer-block-inner">
-                    <div>
-                        <?php echo date('Y'); ?>
-                    </div>
-                    <div>
-                        <p>&nbsp;&copy;&nbsp;Made by GeekHub students</p>
+                    <div class="copyright-wrap">
+                        <div>
+                            <?php echo date('Y'); ?>
+                        </div>
+                        <div>
+                            <p>&nbsp;&copy;&nbsp;Made by GeekHub students</p>
+                        </div>
                     </div>
                 </div>
                 <div class="footer-block-inner">

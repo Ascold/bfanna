@@ -18,7 +18,8 @@ header#masthead {
                     a {
                         color: #708090;
                     }
-                    &:hover {
+                    &:hover,
+                    &.current_page_parent {
                         border-bottom: 5px solid #dda0dd;
                         & > a {
                             color: #1a1a1a;
@@ -47,7 +48,7 @@ header#masthead {
 }
 
 footer#colophon {
-    background-color: #e6e6fa;
+    //background-color: #e6e6fa;
     a {
         color: #666;
     }
