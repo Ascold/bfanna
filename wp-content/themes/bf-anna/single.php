@@ -1,35 +1,32 @@
-<?php
-/**
- * The template for displaying all single posts
- *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
- *
- * @package BF_Anna
- */
+<?php get_header(); ?>
 
-get_header(); ?>
+<div id="primary" class="content-area container-inner events-single-post">
+    <main id="main" class="site-main" role="main">
+        <div class="single-post-wrapper">
+            <?php the_post(); ?>
+            <?php
+            $post_year = get_the_date('Y');
+            $post_month = get_the_date('m');
+            $post_day = get_the_date('d');
+            ?>
+            <h2> <?php echo get_the_title(); ?> </h2>
+            <div class="post-thumbnail">
+                <img src="<?php echo get_the_post_thumbnail_url(); ?>"
+                     alt="<?php echo get_the_title() ?>">
+            </div>
+            <div class="post-date">
+                <a href="<?php echo get_day_link($post_year, $post_month, $post_day); ?>"> <?php echo $post_day; ?> </a>
+                <span>/</span>
+                <a href="<?php echo get_month_link($post_year, $post_month); ?>"> <?php echo $post_month; ?> </a>
+                <span>/</span>
+                <a href="<?php echo get_year_link($post_year); ?>"> <?php echo $post_year; ?></a>
+            </div>
+            <p class="post-content">
+                <?php the_content(); ?>
+            </p>
+            <?php rewind_posts(); ?>
+        </div>
+    </main><!-- #main -->
+</div><!-- #primary -->
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
-
-		<?php
-		while ( have_posts() ) : the_post();
-
-			get_template_part( 'template-parts/content', get_post_format() );
-
-			the_post_navigation();
-
-			// If comments are open or we have at least one comment, load up the comment template.
-			if ( comments_open() || get_comments_number() ) :
-				comments_template();
-			endif;
-
-		endwhile; // End of the loop.
-		?>
-
-		</main><!-- #main -->
-	</div><!-- #primary -->
-
-<?php
-get_sidebar();
-get_footer();
+<?php get_footer(); ?>

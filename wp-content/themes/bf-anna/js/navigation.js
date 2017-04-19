@@ -7,6 +7,7 @@
 ( function() {
 	var container, button, menu, links, i, len;
 
+
 	container = document.getElementById( 'site-navigation' );
 	if ( ! container ) {
 		return;
@@ -42,7 +43,7 @@
 		}
 	};
 
-	// Get all the link elements within the menu.
+    	// Get all the link elements within the menu.
 	links    = menu.getElementsByTagName( 'a' );
 
 	// Each time a menu link is focused or blurred, toggle focus.
@@ -85,7 +86,7 @@
 				var menuItem = this.parentNode, i;
 
 				if ( ! menuItem.classList.contains( 'focus' ) ) {
-					e.preventDefault();
+					// e.preventDefault();
 					for ( i = 0; i < menuItem.parentNode.children.length; ++i ) {
 						if ( menuItem === menuItem.parentNode.children[i] ) {
 							continue;

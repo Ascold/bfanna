@@ -1,0 +1,61 @@
+//Media width to display hamburger menu changed in style.css
+
+@media (max-width: 1100px) {
+    header#masthead {
+        .lang-navigation {
+            padding-top: 48px;
+        }
+        .main-navigation {
+            clear: left;
+            float: none;
+            text-align: center;
+            .main-nav-menu {
+                float: none;
+                ul.nav-menu {
+                    //text-align: left;
+                    .menu-item-has-children {
+                        ul.sub-menu {
+                            display: none;
+                        }
+                    }
+                    .menu-item-has-children:hover {
+                            ul.sub-menu {
+                                display: block;
+                                position: static;
+                        }
+                    }
+                    li {
+                        float: none;
+                        //display: inline-block;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    header#masthead {
+        .site-branding {
+            text-align: center;
+            float: none;
+            a {
+                display: inline-block;
+            }
+        }
+        .lang-navigation {
+            padding-top: 32px;
+        }
+        .main-navigation {
+            button.menu-toggle {
+                position: static;
+                float: left;
+                margin-top: 20px;
+            }
+            .main-nav-menu {
+                margin-top: 100px;
+            }
+        }
+    }
+}
+

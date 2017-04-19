@@ -11,11 +11,20 @@
 @import 'layout/header';
 @import 'layout/footer';
 
+@import 'pages/projects';
 @import 'pages/home';
 @import 'pages/comments';
+@import 'pages/gallery';
+@import 'pages/gallery-single';
 @import 'pages/contacts';
 @import 'pages/assistance';
+@import 'pages/events';
+@import 'pages/events-single-post';
 
 @import 'themes/theme';
 
+@import 'media/header-media';
+@import 'media/footer-media';
+@import 'media/comments-media';
+@import 'media/gallery-page-media';
 

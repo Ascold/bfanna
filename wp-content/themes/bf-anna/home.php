@@ -1,20 +1,25 @@
-<?php
-get_header();
+<?php get_header(); ?>
 
-if (have_posts()):
-    while (have_posts()):
-        the_post(); ?>
-    <div class="post-item">
-        <div class="post-thumbnail">
+    <div id="primary" class="content-area container-inner blog-page">
+        <main id="main" class="site-main" role="main">
+            <h2><?php echo get_the_title($_GET['page_id']) ?></h2>
 
-        </div>
-        <div clss="post-exerpt">
+            <?php if (have_posts()): ?>
 
-        </div>
+                <ul class="event-post-items">
 
-    </div>
+                    <?php while (have_posts()): ?>
 
-<?php    endwhile;
-endif;
+                            <?php get_template_part('template-parts/post', 'preview') ?>
 
-get_footer();
+                    <?php endwhile; ?>
+
+                </ul>
+
+            <?php endif; ?>
+
+        </main><!-- #main -->
+    </div><!-- #primary -->
+
+
+<?php get_footer(); ?>

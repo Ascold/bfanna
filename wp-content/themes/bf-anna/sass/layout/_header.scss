@@ -1,49 +1,93 @@
 header#masthead {
+    padding: 20px 0 30px;
+    border-bottom: 3px solid grey;
+    position: relative;
     .container-inner {
         @include clearfix;
     }
+    .menu-toggle {
+        padding: 10px 15px;
+    }
     .site-branding {
-        padding: 40px 0;
-        .header-logo {
-            float: left;
+        float: left;
+        a {
+            display: block;
         }
-        .header-title {
-            padding-top: 60px;
-            float: right;
+    }
+    .lang-navigation {
+        @include clearfix;
+        float: right;
+        margin-right: 6px;
+        //padding-top: 48px;
+        .lang-menu {
+            @include clearfix;
+            ul {
+                @include clearfix;
+                li {
+                    float: left;
+                    padding: 10px 12px;
+                }
+            }
         }
     }
     .main-navigation {
+        float: right;
+        width: auto;
+        clear: right;
+        padding-top: 12px;
         .main-nav-menu {
             float: left;
-        }
-        .lang-menu {
-            float: right;
-            li {
-                padding: 10px 10px;
-                text-decoration: none;
-            }
-        }
-        ul.nav-menu {
-            @include clearfix;
-            li {
-                a {
-                    padding: 10px 15px;
-                    text-decoration: none;
+            ul.menu {
+                @include clearfix;
+                & > li:not(:last-child) {
+                    margin-right: 13px;
                 }
-                &:not(:last-child) {
-                    margin-right: 10px;
+                .menu-item {
+                    border-radius: 5px;
+                    border-bottom: 5px solid transparent;
                 }
-            }
-            .sub-menu {
-                top: 0;
-                margin-top: 40px;
-                li {
-                    margin: 0;
-                    a {
-                        width: 315px;
+                .current-menu-item {
+                    border-bottom: 5px solid #dda0dd;
+                    border-radius: 5px;
+                }
+                .menu-item-has-children {
+                    position: relative;
+                }
+                .sub-menu {
+                    @include clearfix;
+                    padding: 5px;
+                    border-radius: 5px;
+                    box-shadow: none;
+                    top: 53px;
+                    box-sizing: border-box;
+                    li {
+                        position: relative;
+                        border-bottom: none;
+                        a {
+                            text-transform: none !important;
+                        }
+                    }
+                    li:not(:last-child) {
+                        margin-bottom: 5px;
+                    }
+                    &:before {
+                        display: block;
+                        height: 16px;
+                        margin-top: -16px;
                     }
                 }
             }
+            a {
+                display: inline-block;
+                padding: 10px 15px;
+                text-transform: uppercase;
+                text-decoration: none;
+            }
+        }
+        button.menu-toggle {
+            position: absolute;
+            top: 64px;
+            right: 130px
         }
     }
 }

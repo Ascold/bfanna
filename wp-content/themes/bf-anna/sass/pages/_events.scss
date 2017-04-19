@@ -1,0 +1,129 @@
+.blog-page {
+    padding: 0 15px;
+
+    // Posts layout
+    .event-wrapper {
+        padding: 20px 0;
+    }
+
+    h2 {
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 25px;
+    }
+
+    .post-date {
+        float: right;
+
+        a {
+            transition: font-weight 500ms;
+        }
+
+        a:hover {
+            font-weight: bold;
+        }
+    }
+
+    .event-post-item {
+        border-radius: 5px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        box-shadow: 0 0 32px -6px gray;
+    }
+
+    .event-post-thumbnail, .event-post-text {
+        box-sizing: border-box;
+        vertical-align: top;
+        padding: 15px;
+    }
+
+    .event-post-thumbnail {
+        border-radius: 3px;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .thumbnail-wrapper {
+        border-radius: 5px;
+        overflow: hidden;
+        text-align: center;
+        display: inline-block;
+
+        img {
+            max-width: 100%;
+        }
+    }
+
+    .event-post-excerpt {
+        text-indent: 20px;
+        margin-top: 10px;
+    }
+
+    .event-post-title {
+        padding-left: 20px;
+
+
+        h3 {
+            display: inline-block;
+            margin-right: 30px;
+            margin-bottom: 20px;
+        }
+
+    }
+
+    // Responsive
+    @media (min-width: 700px) {
+        .event-post-thumbnail, .event-post-text {
+            float: left;
+        }
+
+        .event-post-thumbnail {
+            width: 30%;
+        }
+
+        .event-post-text {
+            width: 70%;
+        }
+    }
+
+    // links
+    a, a:visited, a:link {
+        color: rgb(102, 102, 102);
+
+        h3 {
+            position: relative;
+        }
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    a h3 {
+        transition: color 500ms;
+    }
+
+    a:hover h3 {
+        color: black;
+    }
+
+    // Read more button...
+    .read-more-wrapper {
+        text-align: right;
+
+        a {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 3px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            transition: border-color 500ms;
+
+            &:hover {
+                border-color: rgba(0, 0, 0, 0.3);
+            }
+        }
+    }
+}
+
+

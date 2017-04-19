@@ -1,50 +1,20 @@
 .front-page {
+    main.site-main {
+        padding-bottom: 30px;
+    }
     .main-carousel {
-        margin: 20px auto 0;
-        max-width: 1000px;
-        text-align: center;
-        .slider-indicators-wrap {
-            @include clearfix;
-            display: inline-block;
-            margin-top: 15px;
-        }
-        .carousel-indicators {
-            @include clearfix;
-            position: static;
-            margin: 0 auto;
-            float: left;
-            display: inline-block;
-            width: auto;
-            li {
-                text-indent: 0;
-                border-radius: 0;
+        margin: 0 auto 15px;
+        .carousel-inner {
+            & > li {
                 margin: 0;
-                display: block;
-                float: left;
-                padding: 4px 5px;
-                width: 20px;
-                height: 30px;
-                &:not(:last-child) {
-                    border-right: none;
+                img {
+                    width: 100%;
                 }
             }
         }
-        .carousel-control {
-            position: static;
-            float: left;
-            width: 20px;
-            height: 30px;
-            padding: 0 3px;
-            border: 1px solid #333;
-            opacity: 1;
-            &.left {
-                border-right: none;
-                border-radius: 5px 0 0 5px;
-            }
-            &.right {
-                border-left: none;
-                border-radius: 0 5px 5px 0;
-            }
-        }
+    }
+    article {
+        margin: 0 auto;
+        text-align: justify;
     }
 }
