@@ -7,7 +7,6 @@
         background: inherit;
         .flex-viewport{
             max-height: 500px;
-
         }
         ul {
             li {
@@ -16,6 +15,10 @@
                     height: 100%;
                 }
             }
+        }
+        .flex-prev,
+        .flex-next {
+            height: 44px;
         }
     }
 }

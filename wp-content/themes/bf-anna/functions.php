@@ -120,9 +120,6 @@ function bf_anna_scripts()
     wp_enqueue_script('bf-anna-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true);
     //Register jQuery
     wp_enqueue_script('jquery');
-    //Register owl-carousel files
-    wp_enqueue_script('OwlCarousel-scripts', get_stylesheet_directory_uri() . '/libs/OwlCarousel/dist/owl.carousel.min.js', array('jquery'), ' ');
-    wp_enqueue_style('OwlCarousel', get_template_directory_uri() . '/libs/OwlCarousel/dist/assets/owl.carousel.min.css', array(), ' ');
     //Register flex-slider files
     wp_enqueue_script('flexslider-scripts', get_stylesheet_directory_uri() . '/libs/flexslider/jquery.flexslider.js', array('jquery'), ' ');
     wp_enqueue_style('flexslider', get_template_directory_uri() . '/libs/flexslider/flexslider.css', array(), ' ');
@@ -179,12 +176,13 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/jetpack.php';
 function create_posttype()
 {
+    //Registering post-type for gallery page
     register_post_type('photo_gallery_img',
         array(
             'labels' => array(
                 'name' => __('photo_gallery_img'),
                 'singular_name' => __('gallery_img'),
-                'menu_name' => __('Галлерея')
+                'menu_name' => __('Галерея')
             ),
             'public' => true,
             'show_ui' => true,
@@ -557,7 +555,7 @@ function metabox_styling()
 //Fix error in nav-menu classes
 function fix_nav_classes($classes, $item)
 {
-    if ((is_singular('photo_gallery_img'))) :
+    if (is_singular('photo_gallery_img')) :
         $classes = array_diff($classes, array('current_page_parent'));
         if ($item->object_id == 17 || $item->object_id == 112) :
             $classes[] = 'current_page_parent';
