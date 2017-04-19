@@ -9,7 +9,7 @@ $post_day = get_the_date('d');
 
     <div class="event-post-thumbnail">
         <div class="thumbnail-wrapper">
-            <img src=" <?php echo has_post_thumbnail() ? get_the_post_thumbnail_url() : 'http://localhost/bfanna/wordpress/wp-content/uploads/2017/03/has_no_featured_image.jpg'; ?>"
+            <img src=" <?php echo has_post_thumbnail() ? get_the_post_thumbnail_url() : '' ; ?>"
                  alt="<?php echo get_the_title() ?>">
         </div>
     </div>
