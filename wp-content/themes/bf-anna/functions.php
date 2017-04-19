@@ -554,7 +554,8 @@ function contacts_page_metabox_update($post_id)
 add_action('admin_enqueue_scripts', 'metabox_styling');
 function metabox_styling()
 {
-    wp_head();
+    wp_register_script('font-awesome', '//use.fontawesome.com/6eebe0124d.js');
+    wp_enqueue_script('font-awesome');
     ?>
     <style>
         .my-admin-page-styles label {
