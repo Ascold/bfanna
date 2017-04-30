@@ -1,49 +1,65 @@
-@media (min-width: 768px) and (max-width: 992px){
+@media (min-width: 768px) and (max-width: 992px) {
     .comments-page {
         .comment-list {
             .comment {
-                .comment-inner{
+                .comment-inner {
                     margin-right: 50px;
-                    .title-for-comment{
+                    .title-for-comment {
                         padding-top: 15px;
                     }
                 }
 
             }
         }
-        form{
+        form {
             max-width: 760px;
-            .text-area-comment{
+            .text-area-comment {
                 max-width: 700px;
             }
         }
     }
 }
 
-@media (min-width: 320px) and (max-width: 767px){
+//hotfix
+@media (max-width: 500px) {
+    .comments-page {
+        form {
+            .comment-form-author,
+            .comment-form-title {
+                input {
+                    width: 290px;
+                    display: block;
+                    margin: 0 auto;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
     .comments-page {
         .comment-list {
             .comment {
-                .comment-inner{
+                .comment-inner {
                     margin-right: 20px;
-                    p{
+                    p {
                         font-size: 14px;
                     }
-                    .title-for-comment{
+                    .title-for-comment {
                         padding-top: 15px;
                     }
-                    .fn{
+                    .fn {
                         font-size: 16px;
                         font-weight: 500;
                     }
-                    .com-date{
+                    .com-date {
                         font-size: 12px;
                         font-weight: 500;
                     }
-                    .comment-text{
+                    .comment-text {
                         font-size: 15px;
                     }
-                    .comment-footer,.comment-text{
+                    .comment-footer, .comment-text {
                         padding: 10px;
                     }
                 }
@@ -51,14 +67,14 @@
             }
 
         }
-        form{
+        form {
             max-width: 760px;
-            .text-area-comment{
+            .text-area-comment {
                 max-width: 700px;
             }
         }
-        .comment-respond{
-            h3{
+        .comment-respond {
+            h3 {
                 font-size: 23px;
                 font-weight: 600;
             }
